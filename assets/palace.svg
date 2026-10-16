@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="620" viewBox="0 0 880 620">
+<rect width="880" height="620" fill="#f4cd7d"/><circle cx="687" cy="118" r="59" fill="#ed885c"/><path d="M0 350c140-120 230-35 380-80s254-70 500 50v300H0Z" fill="#e6b96b"/>
+<g fill="#e59091" stroke="#ae675f" stroke-width="3"><path d="M130 270h620v265H130Z"/><path d="M341 178h198v357H341Z"/><path d="M361 178c0-74 53-87 79-124 26 37 79 50 79 124Z"/><path d="M102 270c0-45 38-69 64-91 26 22 64 46 64 91Z"/><path d="M650 270c0-45 38-69 64-91 26 22 64 46 64 91Z"/><path d="M102 270h128v265H102ZM650 270h128v265H650Z"/></g>
+<g fill="#fff1cd" stroke="#ae675f" stroke-width="3"><path d="M398 535V388a42 42 0 0 1 84 0v147Z"/><path d="M379 273v-43a20 20 0 0 1 40 0v43ZM461 273v-43a20 20 0 0 1 40 0v43Z"/><path d="M146 350v-34a20 20 0 0 1 40 0v34ZM694 350v-34a20 20 0 0 1 40 0v34Z"/></g>
+<g fill="#9c4d60"><path d="M264 402v-41a21 21 0 0 1 42 0v41ZM574 402v-41a21 21 0 0 1 42 0v41Z"/></g>
+<path d="M87 535h705v25H87Z" fill="#faf0ca"/><path d="m406 559-70 61h207l-70-61" fill="#d18b70"/>
+<g fill="#347661"><path d="M28 535v-95c-43-48-4-106 15-122 39 55 43 97 8 122v95ZM823 535v-95c-38-48-4-106 15-122 39 55 39 97 8 122v95Z"/></g>
+<g fill="#fdf3d4"><path d="M100 93q-10-14-20 0 10-2 20 5 10-7 20-5-10-14-20 0ZM242 128q-10-14-20 0 10-2 20 5 10-7 20-5-10-14-20 0Z"/></g>
+<text x="440" y="596" fill="#75574c" font-family="Georgia,serif" font-size="16" text-anchor="middle" letter-spacing="4">AN ILLUSTRATED PLACE TO CELEBRATE</text>
+</svg>

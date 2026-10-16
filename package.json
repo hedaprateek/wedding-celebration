@@ -1,0 +1,13 @@
+{
+  "name": "the-wedding-celebration",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs --open",
+    "build": "node scripts/build-static.mjs",
+    "check": "node --check app.js && node --check experience.js && node --check runtime.js && node --check site.config.js && node --check server.mjs && node --check guest-list.js && node --check scripts/build-static.mjs",
+    "test": "node --test --test-isolation=none tests/server.test.mjs tests/static.test.mjs"
+  },
+  "engines": { "node": ">=22" }
+}

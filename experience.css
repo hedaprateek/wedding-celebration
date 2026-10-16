@@ -1,0 +1,171 @@
+/* Readable typography and the interactive invitation layer. */
+body{font-size:16px}
+/* Keep rotating artwork and moving ribbon text inside the invitation viewport. */
+main{overflow:hidden}
+.eyebrow,.hero-eyebrow,.section-heading .eyebrow,.invitation-copy .eyebrow,.countdown-inner .eyebrow,.travel-copy .eyebrow,.rsvp-copy .eyebrow,.faq-intro .eyebrow,.form-heading .eyebrow{font-size:12px;letter-spacing:1.7px}
+.preview-ribbon{font-size:12px;letter-spacing:0}
+.brand small{font-size:10px;letter-spacing:1.2px}
+.site-header{gap:24px}.site-header nav{font-size:14px;gap:24px}
+.button,.text-button,.header-rsvp,.hero-buttons .button,.hero-buttons .text-button,.travel-copy>.button,.wedding-footer .text-button{font-size:14px}
+.hero{padding-block:65px 95px}.hero-description{font-size:17px}.blessing{font-size:16px}
+.hero-date strong{font-size:19px}.hero-date div>span{font-size:12px;letter-spacing:1px}
+.pending-name{font-size:12px;line-height:1.7}.hero-photo-caption>span{font-size:12px;letter-spacing:1px}
+.hero-photo-caption{padding-right:65px}.hero-photo-caption b{font-size:31px}
+.hero-photo-frame .photo-disclosure{font-size:12px;letter-spacing:.4px;white-space:normal;text-align:center;width:max-content;max-width:90%;bottom:100px}
+.scroll-note{font-size:12px;letter-spacing:.5px}.love-ribbon>div{font-size:12px}
+.love-ribbon-wrap{overflow:hidden;padding-block:24px;margin-block:-24px;position:relative;z-index:3}
+.invitation-copy #story-copy p{font-size:17px;line-height:1.9}.invitation-signoff{font-size:14px}
+.countdown span{font-size:12px;letter-spacing:1px}.countdown>div{min-width:65px}.countdown b{font-size:58px}
+.section-aside{font-size:16px;max-width:390px}.schedule-note{font-size:13px!important}
+.event-filters button,.gallery-filters button{font-size:14px;padding:11px 20px}
+.events-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.event-card{border-radius:110px 110px 20px 20px;padding:38px 35px 28px;min-height:0;overflow:hidden}
+.event-card h3{font-size:42px;min-height:0;margin:14px 0 24px;line-height:1.1}
+.event-kind{font-size:12px;line-height:1.7;letter-spacing:1.2px;max-width:90%;align-self:center}
+.event-icon{margin-bottom:20px;width:62px;height:62px}
+.event-card time{font-size:17px}.event-place{font-size:13px}.event-description{font-size:16px;line-height:1.9;margin:18px 0 22px;color:#5d6152}
+.event-dress{font-size:15px;padding-top:0}.event-dress span{font-size:12px;letter-spacing:1px;margin-top:20px}
+.event-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px;align-items:center}
+.event-card button{font-size:14px;margin:0;min-height:44px}
+.event-explore{padding:8px 0;border:0;border-bottom:1px solid currentColor;background:none;font-weight:600}
+.event-plan-toggle{background:#fffdf7a6;padding:10px 15px;border:1px solid #928b6a70;border-radius:25px;transition:background .2s,transform .2s}
+.event-plan-toggle[aria-pressed=true]{background:var(--teal);border-color:var(--teal);color:white}
+.event-plan-toggle:hover{transform:translateY(-2px)}
+.event-card .event-calendar{font-size:13px;color:#5b6152;margin-top:12px;min-height:36px}
+.celebration-foot{font-size:15px}.celebration-foot em{font-size:24px}
+.gallery-card>span{font-size:26px}.gallery-card>small{display:block;font-size:12px;letter-spacing:.3px;line-height:1.6}
+.gallery-hint{font-size:14px;letter-spacing:0}
+.travel-art>span{font-size:12px;letter-spacing:1px}.travel-copy h3{font-size:32px}
+.travel-copy>p:not(.eyebrow){font-size:16px}.coming-soon-tag{font-size:13px}
+.travel-small strong{font-size:15px}.travel-small p{font-size:14px}
+.rsvp-inner{grid-template-columns:.85fr 1.15fr;gap:7%}
+.rsvp-copy>p:not(.eyebrow){font-size:17px}.rsvp-preview-note{font-size:14px!important}.rsvp-deadline span{font-size:12px;letter-spacing:1px}.rsvp-deadline strong{font-size:19px}
+.rsvp-form>label,.rsvp-form #attending-fields>label,.rsvp-form legend{font-size:15px}
+.rsvp-form input:not([type=radio]):not([type=checkbox]),.rsvp-form select,.rsvp-form textarea{font-size:16px;line-height:1.65}
+.rsvp-form small{font-size:12px}.attendance span{font-size:14px}.event-options label{font-size:14px;line-height:1.5;min-height:36px}
+.rsvp-form input[type=checkbox]{width:18px;height:18px}.rsvp-form .consent{font-size:13px;line-height:1.8;gap:10px}.submit-rsvp{font-size:16px;min-height:54px}
+.form-status{font-size:14px}.rsvp-plan-note{font-size:14px;background:#e9f1e3;color:var(--teal);padding:12px;border-radius:6px}
+.rsvp-unavailable{align-self:center;padding:42px 36px;background:var(--paper);color:var(--ink);border:1px solid #d7d5bf;border-radius:100px 100px 18px 18px;position:relative;z-index:1}
+.rsvp-unavailable>svg{width:54px;height:54px;color:var(--pink);margin:0 auto 25px}.rsvp-unavailable>.eyebrow{text-align:center}
+.rsvp-unavailable h3{font-size:46px;text-align:center;margin:20px 0 25px}.rsvp-unavailable>p:not(.eyebrow){font-size:16px;line-height:1.9;color:#606c5b;margin:15px 0}.rsvp-unavailable .text-button{margin-top:12px}
+.faq-list summary{font-size:17px;padding-block:24px}.faq-list details p{font-size:16px}.wedding-footer>small{font-size:12px;letter-spacing:1px}
+.dialog-photo-info p{font-size:12px}.dialog-photo-info>button{width:44px;height:44px}.dialog-close{width:44px;height:44px}
+.toast{font-size:14px}.mobile-invitation a{font-size:14px;gap:10px;min-height:58px}
+
+/* The wax seal is a button: opening the letter is always the guest's choice. */
+.invitation-seal-button{display:flex;align-items:center;gap:17px;background:none;border:0;text-align:left;padding:13px 0;margin-top:25px;max-width:100%}
+.invitation-seal-button>span:last-child{display:flex;flex-direction:column;gap:4px}
+.invitation-seal-button b{font:italic 28px/1.15 var(--serif);font-weight:600}
+.invitation-seal-button small{font-size:13px;color:#686e5f;line-height:1.7}
+.wax-seal{display:grid;place-items:center;flex-shrink:0;width:62px;height:62px;border-radius:48% 51% 46% 53%;color:#ffe6c3;background:radial-gradient(circle at 35% 25%,#e8748e,#b22c59 75%);border:3px double #f0a4ad;outline:4px solid #bb3c6430;box-shadow:2px 5px 0 #86244920,0 9px 20px #a7355920;font:italic 34px var(--serif);transition:transform .4s,box-shadow .4s}
+.invitation-seal-button:hover .wax-seal{transform:rotate(-12deg) scale(1.08);box-shadow:2px 5px 0 #86244920,0 12px 25px #a7355940}
+.reading-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:40;pointer-events:none}
+.reading-progress span{display:block;height:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,var(--pink),var(--gold),var(--teal))}
+.chapter-nav{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:25;display:flex;flex-direction:column;gap:4px}
+.chapter-nav a{display:grid;place-items:center;width:28px;height:28px;position:relative;border-radius:50%}
+.chapter-nav a:after{content:'';width:7px;height:7px;background:#aa9b85;border-radius:50%;transition:transform .25s,background .25s;outline:1px solid #fff8ed}
+.chapter-nav a[aria-current]:after{background:var(--pink);transform:scale(1.4);outline:1px solid var(--pink);outline-offset:4px}
+.chapter-nav a>span{position:absolute;right:35px;white-space:nowrap;border-radius:6px;padding:5px 12px;background:var(--teal);color:var(--paper);font-size:13px;opacity:0;transform:translateX(5px);pointer-events:none;transition:opacity .2s,transform .2s}
+.chapter-nav a:hover>span,.chapter-nav a:focus-visible>span{opacity:1;transform:none}
+.hero-visual{transform:translate(var(--parallax-x,0px),var(--parallax-y,0px));transition:transform .6s ease-out}
+.hero-petals{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.hero-petals span{position:absolute;left:8%;top:-25px;width:11px;height:19px;border-radius:80% 0 80% 20%;background:#d75c7c;opacity:0;animation:petal-drift 14s linear infinite;animation-play-state:paused}
+.hero-awake .hero-petals span{animation-play-state:running}
+.hero-petals span:nth-child(2){left:19%;animation-delay:-4s;background:#edb747;width:8px}
+.hero-petals span:nth-child(3){left:32%;animation-delay:-10s}
+.hero-petals span:nth-child(4){left:45%;animation-delay:-7s;background:#edb747}
+.hero-petals span:nth-child(5){left:57%;animation-delay:-2s;width:7px}
+.hero-petals span:nth-child(6){left:69%;animation-delay:-12s;background:#d7ac69}
+.hero-petals span:nth-child(7){left:80%;animation-delay:-6s}
+.hero-petals span:nth-child(8){left:88%;animation-delay:-9s;background:#edb747;width:8px}
+.hero-petals span:nth-child(9){left:95%;animation-delay:-1s}
+@keyframes petal-drift{0%{transform:translate3d(0,-15px,0) rotate(0);opacity:0}10%{opacity:.45}85%{opacity:.35}100%{transform:translate3d(-60px,900px,0) rotate(330deg);opacity:0}}
+
+.personal-plan{margin-top:42px;border:1px solid #d9d7bf;border-radius:22px;padding:35px;background:#f0f0e2;display:grid;grid-template-columns:1fr 1.2fr;gap:45px;position:relative}
+.plan-intro h3{font-size:38px;line-height:1.12;margin:13px 0}
+.plan-intro>p{font-size:16px;color:#5d6c59}.plan-intro small{display:block;font-size:12px;color:#64715d;margin-top:12px}
+.plan-choices{min-width:0}.plan-choices>p:first-child{font:italic 26px/1.4 var(--serif);color:#7d7962;padding:12px 0}
+#plan-events{list-style:none;margin:0;padding:0}#plan-events li{display:flex;gap:15px;align-items:center;justify-content:space-between;border-bottom:1px solid #d9d7bf;padding:10px 0}
+#plan-events b{font-size:15px;font-weight:500}#plan-events span{display:block;font-size:13px;color:#63715f;margin-top:3px}
+.plan-remove{width:40px;height:40px;flex-shrink:0;border:1px solid #c9cdb9;border-radius:50%;background:transparent;font-size:23px}
+#plan-status{font-size:13px;color:#62705b;margin-top:15px;line-height:1.8}.plan-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:18px}
+.plan-actions button:disabled{cursor:default;opacity:.5;transform:none;box-shadow:none}
+.guest-participation{margin-top:55px;display:flex;gap:24px;align-items:center;padding:30px 35px;border-block:1px solid #e4ccbf;background:#f8eade}
+.guest-participation>svg{width:49px;height:49px;color:var(--pink)}
+.guest-participation h3{font-size:35px;margin:8px 0}.guest-participation p:not(.eyebrow){font-size:15px;color:#746957;max-width:590px}
+.participation-actions{display:flex;flex-direction:column;gap:12px;margin-left:auto;flex-shrink:0;align-items:flex-start}
+
+body:has(dialog[open]){overflow:hidden}
+.invitation-letter-dialog{width:min(720px,92vw);overflow-x:hidden;border-radius:8px}
+.experience-close{position:sticky;top:12px;float:right;right:12px;margin:12px 12px -56px 0;z-index:2;width:44px;height:44px;border-radius:50%;border:1px solid #d8c7b2;background:#fffcf5eF;color:var(--ink);font-size:27px;line-height:1;display:grid;place-items:center}
+.letter-sheet{padding:44px 55px 35px;text-align:center;border:1px solid #dac89e;outline:1px solid #dac89e;outline-offset:-12px;background:radial-gradient(ellipse at 50% 0,#f8e3cc,transparent 70%),var(--paper)}
+.letter-sheet .blessing{margin:0 0 15px}.letter-flower{width:58px;height:58px;margin:0 auto 22px;color:var(--pink)}
+.letter-sheet h2{font-size:48px;letter-spacing:-1px;margin:20px 0}.letter-sheet h2 em{display:inline-block}
+.letter-sheet>p:not([class]){font-size:17px;line-height:1.9;max-width:490px;margin:auto;color:#6c705e}
+.letter-date{font:500 32px/1.3 var(--serif);color:var(--pink);padding:18px 0;margin:22px 0;border-block:1px solid #e6d7bf}
+.letter-signoff{font-size:14px;color:#716f5f}.letter-signoff>span{font:italic 29px/1.6 var(--serif);color:var(--teal)}
+.letter-actions{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:28px}
+.letter-preview-note{display:block;font-size:12px;line-height:1.7;color:#82725e;margin-top:24px}
+.invitation-letter-dialog[open]{animation:letter-unfold .55s cubic-bezier(.2,.65,.2,1)}
+@keyframes letter-unfold{from{opacity:0;transform:perspective(1100px) translateY(22px) rotateX(12deg) scale(.94)}to{opacity:1;transform:none}}
+.celebration-dialog{width:min(760px,92vw);border-radius:90px 90px 18px 18px}
+.celebration-detail{padding:45px 45px 35px;background:#f9edca}.celebration-detail.green{background:#e6ecde}.celebration-detail.pink{background:#f4dfe3}.celebration-detail.lavender{background:#eae4ed}
+.celebration-detail>svg{width:65px;height:65px;margin:0 auto 22px;color:var(--pink)}
+.celebration-detail>.eyebrow{text-align:center}.celebration-detail h2{text-align:center;font-size:54px;margin:15px 0 22px}
+.detail-lead{font:italic 30px/1.25 var(--serif);text-align:center;max-width:500px;margin:auto;color:#6d624d}
+.detail-schedule{margin:26px 0 12px;display:flex;flex-direction:column;gap:5px;font-size:16px}.detail-schedule span{font-size:14px;color:#636853}
+.detail-preview{font-size:13px;color:#7a6454;padding:12px;border:1px dashed #9f8b6e70;border-radius:6px}
+.detail-highlights{padding:0;list-style:none;margin:24px 0}.detail-highlights li{font-size:16px;line-height:1.85;padding:13px 0 13px 26px;position:relative;border-bottom:1px solid #8b846326;color:#525c4c}
+.detail-highlights li:before{content:'✦';position:absolute;left:0;top:15px;font-size:13px;color:var(--pink)}
+.detail-dress{display:flex;align-items:center;gap:20px;padding:18px 0}.detail-dress p:not(.eyebrow){font-size:16px;margin-top:4px}.detail-dress small{display:block;font-size:12px;color:#6f715f;margin-top:6px}
+.dress-palette{display:flex;flex-shrink:0;padding-left:4px}.dress-palette span{width:32px;height:32px;border-radius:50%;border:2px solid #fffcf5;margin-left:-4px}
+.detail-prompt{font:italic 26px/1.35 var(--serif);color:var(--pink);padding:17px 0;margin-top:4px}
+.detail-actions{display:flex;flex-wrap:wrap;gap:18px;align-items:center;border-top:1px solid #8b846326;padding-top:22px;margin-top:8px}
+.celebration-dialog[open]{animation:letter-unfold .4s ease-out}
+
+@media(max-width:1100px){
+  .site-header nav{display:none;position:absolute;top:100%;left:0;right:0;padding:17px 5% 24px;background:var(--cream);box-shadow:0 14px 20px #283e3210;border-bottom:1px solid var(--line);font-size:16px;max-height:calc(100dvh - 90px);overflow:auto}
+  .site-header nav.open{display:flex;align-items:stretch;flex-direction:column;gap:5px}.site-header nav a{padding:12px 13px;border-radius:5px}.site-header nav a:hover{background:#f8e9df}.site-header nav a:after{display:none}.mobile-nav-rsvp{display:block}
+  .menu-toggle{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;width:44px;height:44px;background:transparent;border:1px solid #d9d8c9;border-radius:50%;flex-shrink:0}.menu-toggle span{width:16px;height:1px;background:var(--teal)}
+  .chapter-nav{display:none}.hero h1 em{white-space:normal}.hero-photo-caption>span{font-size:11px}.hero-photo-caption b{font-size:26px}
+  .personal-plan{gap:28px}.event-card{padding-inline:28px}.event-card h3{font-size:38px}.countdown-inner{flex-wrap:wrap;justify-content:center;text-align:center}
+}
+@media(max-width:800px){
+  .hero{gap:6%}.hero h1{font-size:85px}.hero h1 em{font-size:59px}.hero-description{font-size:16px}.hero-description br{display:none}
+  .invitation-seal-button b{font-size:24px}.invitation-seal-button{gap:12px}.wax-seal{width:52px;height:52px}.invitation-seal-button small{font-size:12px}
+  .rsvp-inner{display:block}.rsvp-copy{padding:0 0 35px}.rsvp-copy h2{font-size:75px}.rsvp-copy>p:not(.eyebrow){max-width:560px}
+  .rsvp-form{max-width:620px;margin:auto}.event-options>div{grid-template-columns:1fr 1fr}.personal-plan{grid-template-columns:1fr;gap:22px}
+  .guest-participation{flex-wrap:wrap;padding:26px}.guest-participation>div:not(.participation-actions){flex:1;min-width:210px}.participation-actions{flex-direction:row;flex-wrap:wrap;margin-left:0;gap:15px 25px}
+}
+@media(max-width:600px){
+  .section-shell{width:88%}.site-header{padding:15px 6%}.brand b{font-size:27px}.brand small{font-size:9px;letter-spacing:.7px}.brand svg{width:30px;height:30px}.header-rsvp{display:none}
+  .hero{padding-block:40px 65px;gap:40px}.hero h1{font-size:clamp(80px,23vw,112px)}.hero h1 em{font-size:clamp(53px,14.8vw,76px)}
+  .hero-eyebrow{font-size:11px;letter-spacing:1.1px}.hero-description{font-size:16px;max-width:370px;margin:auto}.hero-date strong{font-size:19px}.hero-date div>span{font-size:11px}
+  .pending-name{max-width:310px;font-size:12px}.hero-buttons{gap:15px}.hero-buttons .button{padding:14px 19px}.hero-buttons .text-button{font-size:14px}
+  .invitation-seal-button{margin:22px auto 0;gap:15px}.invitation-seal-button b{font-size:25px}.invitation-seal-button small{font-size:12px}.wax-seal{width:55px;height:55px}
+  .hero-photo-caption>span{font-size:10px;letter-spacing:.5px}.hero-photo-caption b{font-size:26px}.hero-photo-frame .photo-disclosure{font-size:11px;bottom:90px}.hero-photo-caption svg{width:26px;height:26px}
+  .scroll-note{font-size:11px;letter-spacing:0}.love-ribbon>div{font-size:12px;gap:24px;letter-spacing:1px}
+  .invitation-copy h2,.travel-copy h2{font-size:47px}.invitation-copy #story-copy p{font-size:16px}.invitation-signoff{font-size:14px}
+  .countdown{gap:11px;max-width:100%}.countdown>div{min-width:43px}.countdown b{font-size:49px}.countdown span{font-size:11px;letter-spacing:.5px}.countdown i{font-size:24px}.countdown-inner h2{font-size:37px}
+  .section-heading{display:block}.section-aside{margin-top:20px;font-size:16px}.section-heading h2{font-size:48px}.event-filters button,.gallery-filters button{padding:10px 15px;font-size:14px}
+  .events-grid{grid-template-columns:1fr;gap:24px}.event-card{border-radius:100px 100px 18px 18px;padding:32px 25px 24px}.event-card h3{font-size:39px}.event-kind{font-size:12px}.event-card time{font-size:17px}.event-place{font-size:13px}.event-description{font-size:16px}.event-dress{font-size:15px}.event-card button{font-size:14px}
+  .celebration-foot{align-items:flex-start;gap:10px;font-size:14px}.celebration-foot em{font-size:22px}
+  .personal-plan{padding:25px 22px;margin-top:32px}.plan-intro h3{font-size:36px}.plan-intro .eyebrow{font-size:11px}.plan-actions{gap:13px}.plan-actions .button{width:100%}.plan-actions .text-button{margin:auto}
+  .gallery-grid{grid-template-columns:1fr 1fr;gap:28px 18px;padding-inline:3px}.gallery-card{padding:7px 7px 12px}.gallery-card>span{font-size:24px}.gallery-card>small{font-size:11px;line-height:1.55}.gallery-hint{font-size:14px;line-height:1.9}
+  .guest-participation{gap:15px;padding:24px 20px;margin-top:32px}.guest-participation>svg{width:35px;height:35px}.guest-participation>div:not(.participation-actions){min-width:0;flex:auto;width:100%}.guest-participation h3{font-size:33px}.guest-participation .eyebrow{font-size:11px}.guest-participation p:not(.eyebrow){font-size:16px}
+  .travel-art>span{font-size:11px;letter-spacing:.6px}.travel-copy h3{font-size:30px}.travel-copy>p:not(.eyebrow){font-size:16px}.travel-small{gap:22px}.travel-small strong{font-size:15px}.travel-small p{font-size:14px}
+  .rsvp-copy h2{font-size:76px}.rsvp-copy>p:not(.eyebrow){font-size:17px}.rsvp-preview-note{max-width:100%!important}.rsvp-form{padding:28px 23px}.rsvp-form>label,.rsvp-form #attending-fields>label,.rsvp-form legend{font-size:15px}.rsvp-form small{font-size:12px}.attendance span{font-size:14px;padding:13px 8px}
+  .event-options>div{grid-template-columns:1fr}.event-options label{font-size:15px;min-height:40px}.rsvp-form .consent{font-size:13px}.submit-rsvp{font-size:16px}
+  .faq-intro h2{font-size:47px}.faq-list summary{font-size:17px}.faq-list details p{font-size:16px}.wedding-footer>small{font-size:12px;letter-spacing:.3px}.wedding-footer .text-button{font-size:14px}
+  .toast{bottom:78px;font-size:14px;padding:12px 17px}.dialog-photo-info h2{font-size:25px}.dialog-photo-info p{font-size:12px}.dialog-photo-info{gap:8px;padding:18px 10px}
+  .letter-sheet{padding:38px 25px 30px}.letter-sheet h2{font-size:39px}.letter-sheet h2 br{display:none}.letter-sheet>p:not([class]){font-size:16px}.letter-date{font-size:29px}.letter-flower{width:48px;height:48px}.letter-actions{gap:17px}.letter-actions .button{width:100%}
+  .celebration-dialog{border-radius:65px 65px 14px 14px}.celebration-detail{padding:42px 25px 28px}.celebration-detail h2{font-size:43px}.detail-lead{font-size:28px}.detail-dress{flex-wrap:wrap;gap:12px}.detail-actions{flex-direction:column;align-items:stretch}.detail-actions .text-button{align-self:center}
+}
+@media(max-width:360px){.brand b{font-size:25px}.brand small{font-size:8px}.header-actions{gap:7px}.countdown{gap:8px}.countdown b{font-size:43px}.countdown>div{min-width:40px}.countdown i{font-size:21px}.hero-buttons{flex-direction:column;gap:10px}.hero-eyebrow{font-size:10px;gap:8px}.tiny-line{width:14px}.hero-photo-caption>span{font-size:10px}.hero-photo-caption b{font-size:23px}.event-card{padding-inline:22px}.event-card h3{font-size:36px}.gallery-grid{gap:28px 15px}.gallery-card>span{font-size:22px}.rsvp-form{padding-inline:20px}.attendance{flex-direction:column}.letter-sheet{padding-inline:23px}}
+html[data-calm=true] .hero-petals{display:none}html[data-calm=true] .hero-visual{transform:none}
+@media(prefers-reduced-motion:reduce){.hero-petals{display:none}.hero-visual{transform:none}}
+@media print{
+  main{overflow:visible}
+  .reading-progress,.chapter-nav,.invitation-seal-button,.hero-petals,.event-actions,.event-calendar,.personal-plan,.guest-participation,.love-ribbon-wrap,dialog{display:none!important}
+  .hero-visual{transform:none}.event-card{padding:22px;min-height:0;border-radius:25px}.event-card h3{font-size:27px}.event-kind,.event-place,.event-dress span{font-size:9pt}.event-description,.event-dress{font-size:10pt}.event-card time{font-size:11pt}.events-grid{gap:16px}.hero{padding-block:25px 35px}.rsvp-copy>p:not(.eyebrow){color:#444}.gallery-card>small{font-size:8pt}.section-aside,.invitation-copy #story-copy p,.travel-copy>p:not(.eyebrow),.faq-list details p{font-size:10pt}
+}

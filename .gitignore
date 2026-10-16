@@ -1,0 +1,8 @@
+.data/
+node_modules/
+tests/fixtures/
+*.log
+dist/
+.env
+.env.*
+.scratch/
