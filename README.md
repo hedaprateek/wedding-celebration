@@ -1,10 +1,10 @@
-# Prerna’s wedding celebration
+# Prerna Pareek weds Shubham Purohit
 
-A colourful Marwari wedding invitation with an arched photograph, floral illustrations, a wax-seal invitation letter, gentle drifting petals, a live countdown, confetti, a photo lightbox, expandable celebration details, a personal event planner, calendar downloads, and persistent RSVPs. No dependencies or build step are needed.
+A colourful Marwari wedding invitation with six separate views: Home, Invitation, Events, Photos, Venue and RSVP. The top navigation becomes a hamburger menu on phones. Bookmarks and browser Back/Forward open the matching view; printing and reading without JavaScript include all sections. Floral effects, a wax-seal letter, a countdown, a photo lightbox, celebration details, a personal event planner and calendar downloads remain available.
 
 **Public preview:** https://hedaprateek.github.io/wedding-celebration/
 
-The public preview keeps the draft labels and illustrative photos. Online RSVP collection is not connected: visitors see an explicit update instead of a submission form. The local Node version below still supports private preview RSVPs, song suggestions and wishes.
+The public site opens RSVP responses as a WhatsApp draft to **Rahul Pareek, +91 91567 04040**, the bride’s brother. Guests review the message and tap Send themselves. Nothing is sent automatically, and the public site does not store guest records. Calling Rahul directly is also available. Photos remain clearly labelled as illustrative until family photographs are supplied.
 
 ## Open locally
 
@@ -16,15 +16,30 @@ A fill-in list of the information needed to personalise the invitation is in **D
 
 ## Details to finalise
 
-The supplied details are **Prerna**, **1 and 2 December**, and **a Marwari wedding**. The groom’s name is intentionally blank. **2026 is an assumption**, and the proposed ceremony times, RSVP deadline, city, venue, travel, contact details, and photographs still need confirmation. The first day currently proposes haldi/mehendi and sangeet; the second proposes baraat/pheras and dinner. The family should confirm rituals, dates, year and muhurat.
+Confirmed: **Prerna Pareek and Shubham Purohit**, **1–2 December 2026**, **Secunderabad, Hyderabad**. The bride’s father is **Sunil Pareek**; her brother and RSVP contact is **Rahul Pareek**.
 
-Edit **site.config.js** to update names, story, events, dress suggestions, venue, directions, family contact, photos and dates. Include a time-zone offset in every date. Calendar downloads carry a provisional label while `preview` is `true`. All sample portraits are clearly disclosed as illustrative; they do not depict Prerna.
+| Event | Date | Time (IST) |
+| --- | --- | --- |
+| Tilak – Engagement | Tuesday, 1 December 2026 | 9:15 am |
+| Maayra | Tuesday, 1 December 2026 | 4:30 pm |
+| Sangeet | Tuesday, 1 December 2026 | 7:30 pm |
+| Phera | Wednesday, 2 December 2026 | 3:15 pm |
+| Reception | Wednesday, 2 December 2026 | 8:30 pm |
+| Haldi | To be decided | To be decided |
+
+The venue name and exact address, Haldi timing, real photos, travel/stay arrangements, any compulsory dress code and an RSVP deadline still need confirmation. No event end times or RSVP deadline have been invented.
+
+Edit **site.config.js** to update names, story, events, dress suggestions, venue, directions, family contact, photos and dates. Include a time-zone offset in every confirmed date; leave an unconfirmed event’s date as `null`. Calendar downloads include confirmed starts only, omit Haldi while undated, and include no end time unless the family supplies one. The sample portraits do not depict Prerna or Shubham.
 
 Restart the preview after changing the configuration so the RSVP backend and invitation use the same event list.
 
 Replace images in `assets/photos/` with the family’s own authorised photos. Keep meaningful alt text. Photo sources are listed in `assets/photos/SOURCES.md`; fonts are served locally. The separate **Stunity Tech — by Prateek** studio credit remains visible on mobile and in print.
 
 ## RSVP behaviour
+
+On GitHub Pages, the RSVP form prepares a WhatsApp message with names, attendance, party size, chosen events, song and wish. The confirmation explicitly asks guests to tap Send in WhatsApp; their form stays filled, and a fallback link reopens the draft. Updating an RSVP means messaging or calling Rahul again. No WhatsApp account is used by the site to send messages on a guest’s behalf.
+
+The local Node runtime is separately configured in `runtime.js` to keep the original private RSVP preview available:
 
 - In preview mode, submitting the form saves a preview response locally. The confirmation explicitly says the family has not been notified. No email or WhatsApp message is sent automatically.
 - Submitting the same email or phone number updates the previous response. Retrying an identical request does not duplicate guests. Use the same contact format when making an update.
@@ -36,16 +51,16 @@ Replace images in `assets/photos/` with the family’s own authorised photos. Ke
 
 The GitHub Actions workflow in `.github/workflows/pages.yml` checks the scripts, runs the tests, and publishes `npm run build` output to GitHub Pages whenever `main` changes. Select **GitHub Actions** as the Pages publishing source in repository settings.
 
-The build creates `dist/` from an explicit list of public files. It excludes `.data`, the local guest-list dashboard, server code, test fixtures and project documents. It replaces `runtime.js` with the public-preview settings, hides the RSVP form even without JavaScript, and displays “Online RSVPs are not open yet.” Event planning, calendar downloads, photos, invitation letters and reduced-motion controls still work.
+The build creates `dist/` from an explicit list of public files. It excludes `.data`, the local guest-list dashboard, server code, test fixtures and project documents, and replaces `runtime.js` with WhatsApp settings. Without JavaScript, guests can use the direct WhatsApp and phone links. Event planning, calendar downloads, photos, invitation letters and reduced-motion controls still work.
 
-## Before collecting real RSVPs
+## Optional hosted RSVP storage
 
-Confirm all details in `site.config.js`, replace the illustrative photos, update the confirmation FAQ copy in `index.html`, and set `preview: false`. Use a Node host with persistent private storage for RSVP collection, or connect a hosted RSVP service: GitHub Pages alone cannot run this server. RSVP notifications are not connected. The Pages build deliberately keeps online submissions unavailable until a real collection arrangement is supplied.
+The public site currently delivers RSVP drafts through WhatsApp. For a hosted database and owner dashboard instead, use a Node host with persistent private storage or connect a hosted RSVP service: GitHub Pages alone cannot run this server. Confirm the remaining details and replace the illustrative photos before removing the preview setting. Backend email/WhatsApp notifications are not connected.
 
 For Node hosting, set `HOST=0.0.0.0`, `PORT` as required, and `PUBLIC_ORIGIN` to the exact HTTPS address of the invitation, then start `node server.mjs`. Put it behind the host’s HTTPS proxy and preserve `.data` on a private persistent volume. Setting `PUBLIC_ORIGIN` disables the local guest-list dashboard, including all CSV and JSON routes. A hosted owner dashboard should use authentication; this project supplies the local host view instead. Share guest records only with the hosts. Use the host’s private file access to retrieve records on a server.
 
-The invitation supports keyboard navigation and reduced motion, has a “Calm the animations” control, and includes a print layout with the studio credit. RSVP details are not saved in browser storage; only the animation preference and selected event IDs are. The planner is not an RSVP: guests explicitly apply their choices to the form and submit it. Song suggestions and wishes are saved with that response and appear in the local guest list and CSV.
+The invitation supports keyboard navigation and reduced motion, has a “Calm the animations” control, and includes a print layout with the studio credit. RSVP details are not saved in browser storage; only the animation preference and selected event IDs are. The planner is not an RSVP: guests explicitly apply their choices to the form and review/send them in WhatsApp. Local preview responses are saved separately to the private guest list and CSV.
 
 ## Verify
 
-`npm run check` validates JavaScript. `npm test` runs isolated RSVP fixtures under `tests/fixtures`, covering updates, retries, persistence, contact validation, consent, declines, private routes, origin checks, rate limiting, native submissions and CSV safety. It also checks that the public build includes its required modules and images, hides the RSVP form, and excludes host pages and guest data. The local preview, build and all tests use only Node’s built-in modules.
+`npm run check` validates JavaScript. `npm test` checks the exact supplied event times, undated Haldi, calendar UTC conversion, WhatsApp draft encoding, public artifact and private RSVP handling. The public artifact excludes host pages and guest data. The local preview, build and all tests use only Node’s built-in modules.

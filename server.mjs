@@ -8,7 +8,7 @@ import config from './site.config.js';
 
 const root=dirname(fileURLToPath(import.meta.url));
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.jpg':'image/jpeg','.woff2':'font/woff2','.md':'text/plain; charset=utf-8'};
-const publicFiles=new Set(['index.html','app.js','experience.js','runtime.js','site.config.js','styles.css','experience.css','assets/stunity-credit.css','assets/favicon.svg','assets/florals.svg','assets/palace.svg','assets/fonts/fonts.css',...config.gallery.map(p=>p.src)]);
+const publicFiles=new Set(['index.html','app.js','experience.js','navigation.js','invitation-utils.js','runtime.js','site.config.js','styles.css','experience.css','assets/stunity-credit.css','assets/favicon.svg','assets/florals.svg','assets/palace.svg','assets/fonts/fonts.css',...config.gallery.map(p=>p.src)]);
 for(let i=1;i<=10;i++)publicFiles.add(`assets/fonts/font-${i}.woff2`);
 class RequestError extends Error{constructor(status,message){super(message);this.status=status;}}
 const cleanText=(value,max,required=false)=>{if(typeof value!=='string'||value.length>max||value.includes('\0')||(required&&!value.trim()))throw new RequestError(400,'Please check your name, contact details, song suggestion and note.');return value.trim();};

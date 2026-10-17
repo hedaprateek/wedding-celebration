@@ -1,6 +1,7 @@
 import {cp,lstat,mkdir,readFile,realpath,rm,writeFile} from 'node:fs/promises';
 import {basename,dirname,join,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import config from '../site.config.js';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 export async function buildStatic(){
@@ -14,22 +15,17 @@ export async function buildStatic(){
   }
   await mkdir(output,{recursive:true});
   // Only public invitation files belong in the Pages artifact. Guest data and host pages stay out.
-  for(const name of ['app.js','experience.js','site.config.js','styles.css','experience.css','assets'])await cp(join(root,name),join(output,name),{recursive:true,dereference:false});
+  for(const name of ['app.js','experience.js','navigation.js','invitation-utils.js','site.config.js','styles.css','experience.css','assets'])await cp(join(root,name),join(output,name),{recursive:true,dereference:false});
   let html=await readFile(join(root,'index.html'),'utf8');
   html=html.replace('</head>','  <meta name="robots" content="noindex, nofollow">\n</head>');
   html=html.replace('<form class="rsvp-form" id="rsvp-form"','<form hidden class="rsvp-form" id="rsvp-form"');
-  html=html.replace('id="rsvp-unavailable" tabindex="-1" hidden','id="rsvp-unavailable" tabindex="-1"');
-  html=html.replace('class="guest-participation reveal"','class="guest-participation reveal" hidden');
-  html=html.replace('This is a design preview. Responses are saved to this local guest list; the family is not notified.','A preview of the celebration. Online RSVPs are not open yet.');
-  html=html.replace('<summary>Can I update my RSVP?</summary><p>Send a new response using the same email or mobile number. Your latest response will update the previous one, so the guest count stays accurate.</p>','<summary>When can I RSVP?</summary><p>Online RSVPs are not open yet. The family will share the final invitation and contact details when they are ready.</p>');
-  html=html.replace('Please follow the guests included in your invitation and enter your full party count in the RSVP. For parties larger than eight, contact the family once their contact details are available.','Please follow the guests included in your final invitation. The family will share contact details and RSVP arrangements once they are confirmed.');
-  html=html.replace('Tell the family about dietary requirements or allergies in your RSVP note. Menu and catering details will be confirmed by the hosts directly.','Please share dietary requirements or allergies with the family once their contact details are available. Menu and catering arrangements will be confirmed by the hosts.');
-  html=html.replace('Send a happy yes <span','Read the RSVP update <span');
-  html=html.replace('Save my seat <span','RSVP update <span');
-  html=html.replace('Count me in <span','RSVP update <span');
-  html=html.replace('RSVP with my choices <span','Read the RSVP update <span');
+  const whatsappEnabled=/^[1-9]\d{7,14}$/.test(config.contact.phone.replace(/\D/g,''));
+  if(!whatsappEnabled){
+    html=html.replace('id="rsvp-unavailable" tabindex="-1" hidden','id="rsvp-unavailable" tabindex="-1"');
+    html=html.replace('class="guest-participation reveal"','class="guest-participation reveal" hidden');
+  }
   await writeFile(join(output,'index.html'),html);
-  await writeFile(join(output,'runtime.js'),"// Public preview: no online RSVP collection is connected yet.\nexport default {rsvpEnabled:false, rsvpEndpoint:null};\n");
+  await writeFile(join(output,'runtime.js'),`// Public RSVP opens a WhatsApp draft; guests must tap Send themselves.\nexport default ${JSON.stringify({rsvpEnabled:whatsappEnabled,rsvpMode:whatsappEnabled?'whatsapp':'unavailable',rsvpEndpoint:null})};\n`);
   await writeFile(join(output,'.nojekyll'),'');
   // Keep search engines from indexing draft wedding information.
   await writeFile(join(output,'robots.txt'),'User-agent: *\nDisallow: /\n');

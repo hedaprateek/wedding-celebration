@@ -1,5 +1,6 @@
 // Small, optional ways for guests to take part. No personal details go into browser storage.
-export function enhanceInvitation({config, downloadCalendar, toast, formatDate, rsvpEnabled = true}) {
+import {eventWhen, hasDate, fullNames} from './invitation-utils.js';
+export function enhanceInvitation({config, downloadCalendar, toast, formatDate, rsvpEnabled = true, navigateTo}) {
   const $ = selector => document.querySelector(selector);
   const make = (tag, className, text) => {
     const element = document.createElement(tag);
@@ -15,17 +16,10 @@ export function enhanceInvitation({config, downloadCalendar, toast, formatDate, 
     if (Array.isArray(stored)) selected = new Set(stored.filter(id => config.events.some(event => event.id === id)));
   } catch { /* A guest can still use the planner without storage. */ }
   const selectedEvents = () => config.events.filter(event => selected.has(event.id));
-  const dateLabel = event => formatDate(event.date, {day:'numeric', month:'long', hour:'numeric', minute:'2-digit'});
+  const dateLabel = event => eventWhen(event, config.timezone);
 
   function goTo(id, focusTarget) {
-    const section = document.getElementById(id);
-    if (!section) return;
-    section.scrollIntoView({behavior:calm() ? 'instant' : 'smooth', block:'start'});
-    const target = focusTarget || section.querySelector('h2,h3');
-    if (target) {
-      if (!focusTarget) target.tabIndex = -1;
-      target.focus({preventScroll:true});
-    }
+    navigateTo(id, {focusTarget});
   }
 
   function updatePlan() {
@@ -48,8 +42,10 @@ export function enhanceInvitation({config, downloadCalendar, toast, formatDate, 
       return li;
     }));
     $('#plan-empty').hidden = events.length > 0;
-    $('#plan-status').textContent = events.length ? `${events.length} celebration${events.length === 1 ? '' : 's'} in your plan.${config.preview ? ' Timings are provisional.' : ''} This is not an RSVP yet.` : 'No celebrations selected yet.';
-    $('#plan-calendar').disabled = $('#plan-rsvp').disabled = !events.length;
+    const pending = events.filter(event => !hasDate(event)).length;
+    $('#plan-status').textContent = events.length ? `${events.length} celebration${events.length === 1 ? '' : 's'} in your plan.${pending ? ' Haldi’s date and time are to be decided; it is not included in calendar downloads.' : ''} This is not an RSVP yet.` : 'No celebrations selected yet.';
+    $('#plan-calendar').disabled = !events.some(hasDate);
+    $('#plan-rsvp').disabled = !events.length;
     if (!rsvpEnabled) $('#plan-rsvp').textContent = 'Read the RSVP update ↗';
   }
   function togglePlan(id) {
@@ -76,7 +72,8 @@ export function enhanceInvitation({config, downloadCalendar, toast, formatDate, 
 
   const letter = $('#invitation-dialog');
   $('#letter-date').textContent = $('#hero-dates').textContent;
-  $('#letter-signoff').textContent = config.couple.second ? `${config.couple.first}, ${config.couple.second} & families` : `${config.couple.first} & family`;
+  const names = fullNames(config);
+  $('#letter-signoff').textContent = `${names.bride}, ${names.groom} & families`;
   $('#letter-preview-note').hidden = !config.preview;
   $('.wax-seal').textContent = config.couple.initials || config.couple.first.charAt(0);
   $('#open-invitation').addEventListener('click', () => letter.showModal());
@@ -121,12 +118,13 @@ export function enhanceInvitation({config, downloadCalendar, toast, formatDate, 
     const plan = make('button', 'button button-teal');
     plan.type = 'button';
     plan.dataset.planToggle = id;
-    const calendar = make('button', 'text-button', config.preview ? 'Save provisional event ＋' : 'Save to my calendar ＋');
+    const calendar = make('button', 'text-button', hasDate(event) ? 'Save to my calendar ＋' : 'Calendar available once confirmed');
     calendar.type = 'button';
+    calendar.disabled = !hasDate(event);
     calendar.addEventListener('click', () => downloadCalendar(event));
     actions.append(plan, calendar);
     content.replaceChildren(icon, make('p', 'eyebrow', event.kind), title, make('p', 'detail-lead', experience.lead), schedule);
-    if (config.preview) content.append(make('p', 'detail-preview', 'A proposed celebration · Year, venue, programme and timings still to be confirmed.'));
+    content.append(make('p', 'detail-preview', hasDate(event) ? 'All times are in India Standard Time. The venue name and exact address will follow.' : 'The Haldi date and time are still to be decided.'));
     content.append(highlights, dress);
     if (experience.prompt) content.append(make('p', 'detail-prompt', experience.prompt));
     content.append(actions);
@@ -159,28 +157,6 @@ export function enhanceInvitation({config, downloadCalendar, toast, formatDate, 
   });
   updatePlan();
   document.addEventListener('wedding:events-rendered', updatePlan);
-
-  // The progress rail is a shortcut through the invitation, with no scrolling takeover.
-  const chapters = [...document.querySelectorAll('[data-chapter]')];
-  let scrollFrame = 0;
-  function updateProgress() {
-    scrollFrame = 0;
-    const distance = document.documentElement.scrollHeight - innerHeight;
-    $('#reading-progress-bar').style.transform = `scaleX(${distance > 0 ? Math.min(1, Math.max(0, scrollY / distance)) : 0})`;
-    let current = chapters[0];
-    for (const link of chapters) {
-      if (document.getElementById(link.dataset.chapter)?.getBoundingClientRect().top < innerHeight * .4) current = link;
-    }
-    for (const link of chapters) {
-      if (link === current) link.setAttribute('aria-current', 'location');
-      else link.removeAttribute('aria-current');
-    }
-  }
-  const queueProgress = () => { if (!scrollFrame) scrollFrame = requestAnimationFrame(updateProgress); };
-  addEventListener('scroll', queueProgress, {passive:true});
-  addEventListener('resize', queueProgress);
-  document.addEventListener('wedding:events-rendered', queueProgress);
-  updateProgress();
 
   const hero = $('.hero');
   const petals = make('div', 'hero-petals');
