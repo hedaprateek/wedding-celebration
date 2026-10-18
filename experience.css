@@ -13,6 +13,34 @@ body{font-size:16px}
 .hero-date div>span{display:block}
 .hero-date .hero-city{font-size:14px;letter-spacing:0;margin-top:4px;color:var(--teal)}
 .invitation-seal-button .wax-seal{font-size:22px;font-style:normal}
+[lang=hi]{font-family:'Nirmala UI','Noto Sans Devanagari','Kohinoor Devanagari',sans-serif;letter-spacing:normal}
+.family-welcome b+b{margin-top:4px}.family-welcome b{font-size:26px}
+.invitation-details{padding-top:60px}.invitation-details>h2{font-size:52px;margin:14px 0 32px}
+.family-blessings-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+.family-blessings-card{border:1px solid #dbc9ac;background:#fbefdf;border-radius:80px 80px 16px 16px;padding:37px 30px 30px;text-align:center}
+.family-blessings-card:nth-child(2){background:#f7e5e7;border-color:#e0c7ce}
+.family-blessings-card h3{font-size:36px;font-weight:600;line-height:1.6;margin:8px 0 20px;color:var(--pink)}
+.family-blessings-card .family-role{font-size:11px;letter-spacing:1.4px;margin:20px 0 7px;color:#6d715e}
+.family-names{font-size:20px;line-height:1.9;overflow-wrap:anywhere}
+.traditional-invitation{margin-top:30px;border:1px solid #dcc9ab;border-radius:16px;background:#fffcf5;overflow:hidden}
+.traditional-invitation>summary{padding:22px 28px;cursor:pointer;display:flex;justify-content:space-between;gap:18px;align-items:center;font-size:17px;color:var(--teal);font-weight:500;list-style:none}
+.traditional-invitation>summary:after{content:'+';font-size:25px;color:var(--pink)}.traditional-invitation[open]>summary:after{content:'−'}
+.traditional-invitation>summary>span[lang=hi]{margin-left:auto;font-size:19px;font-weight:500}
+.traditional-invitation-sheet{padding:35px 50px 45px;max-width:920px;margin:auto;text-align:center;font-size:19px;line-height:2;background:radial-gradient(ellipse at top,#f7e5d1,transparent 70%),var(--paper);border-top:1px solid #e1d1ba}
+.traditional-devotion{display:flex;gap:12px;justify-content:space-around;flex-wrap:wrap;font-size:18px;color:#9b7035;margin-bottom:25px}
+.traditional-blessings{color:var(--pink);font-size:20px;margin-bottom:28px}.traditional-greeting{font-weight:600;margin:20px 0 10px}
+.traditional-couple{font-size:42px;font-weight:600;color:var(--teal);line-height:1.8;margin-top:18px}.traditional-sang{font-size:23px;font-style:italic;color:var(--pink);margin-top:6px}.traditional-wedding{font-size:28px;font-weight:600;margin:18px 0}
+.traditional-tithi{padding:18px 14px;border-block:1px solid #dac4a3;font-size:20px;margin:22px 0}.traditional-welcome{max-width:690px;margin:20px auto 0;font-size:20px;line-height:2}
+.extended-family-heading{margin-top:40px}.extended-family-heading h3{font-size:34px;margin:12px 0}.extended-family-heading>p:last-child{font-size:15px;color:var(--muted)}
+.extended-family-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:24px;align-items:start}
+.family-host-group{border:1px solid var(--line);border-radius:10px;background:#fbf3e5;overflow:hidden}.family-host-group:last-child{grid-column:1/-1}
+.family-host-group summary{cursor:pointer;font-size:22px;padding:16px 22px;list-style:none;display:flex;justify-content:space-between;gap:18px;align-items:center;line-height:1.8}.family-host-group summary:after{content:'+';font:24px var(--sans);color:var(--pink)}.family-host-group[open] summary:after{content:'−'}
+.family-host-names{border-top:1px solid var(--line);padding:15px 22px 20px}.family-host-names p{font-size:19px;line-height:1.95;margin:6px 0;overflow-wrap:anywhere}.family-host-group:last-child .family-host-names{columns:2;column-gap:35px}.family-host-names p{break-inside:avoid}
+.event-hindi-title{text-align:center;font-size:19px;line-height:1.8;margin:-9px 0 17px;color:#766551}
+.venue-hindi{font-size:20px!important;line-height:1.9!important;color:var(--teal)!important;margin:12px 0}
+.baraat-welcome-note{border-top:1px solid #dacbb5;margin-top:26px;padding-top:20px}.baraat-welcome-note>p[lang=hi]{font-size:18px;line-height:1.95;margin:12px 0}.baraat-welcome-note>p:last-child{font-size:14px;color:var(--muted)}
+.rsvp-host>.rsvp-email{display:block;font-size:16px;letter-spacing:0;overflow-wrap:anywhere;line-height:1.8}.travel-small p{overflow-wrap:anywhere}
+@media(max-width:700px){.family-blessings-grid,.extended-family-grid{grid-template-columns:1fr}.family-host-group:last-child{grid-column:auto}.family-host-group:last-child .family-host-names{columns:1}.invitation-details>h2{font-size:44px}.family-blessings-card{padding:32px 23px 25px}.family-names{font-size:19px}.traditional-invitation>summary{padding:18px 20px;flex-wrap:wrap;font-size:16px}.traditional-invitation>summary>span[lang=hi]{font-size:18px;margin-left:0}.traditional-invitation-sheet{padding:25px 22px 30px;font-size:18px}.traditional-blessings{font-size:18px}.traditional-devotion{font-size:16px}.traditional-couple{font-size:36px}.traditional-tithi,.traditional-welcome{font-size:18px}.family-host-group summary{font-size:21px}.family-host-names p{font-size:18px}.extended-family-heading h3{font-size:31px}.rsvp-host>.rsvp-email{font-size:16px}}
 .family-welcome{display:grid;grid-template-columns:1fr 1fr;gap:25px;border-top:1px solid var(--line);padding-top:22px;margin-top:28px}
 .family-welcome span{display:block;font-size:11px;letter-spacing:1px;color:var(--muted)}.family-welcome b{display:block;font:500 29px/1.25 var(--serif);margin-top:8px}.family-welcome a{font-size:15px;display:inline-block;text-decoration:underline;text-underline-offset:4px;margin-top:6px}
 .home-explore h2{font-size:48px;margin:12px 0 30px}.explore-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
@@ -190,6 +218,8 @@ body:has(dialog[open]){overflow:hidden}
 html[data-calm=true] .hero-petals{display:none}html[data-calm=true] .hero-visual{transform:none}
 @media(prefers-reduced-motion:reduce){.hero-petals{display:none}.hero-visual{transform:none}}
 @media print{
+  details::details-content{content-visibility:visible!important}
+  .traditional-invitation-sheet,.family-host-names{display:block!important}.family-blessings-card{break-inside:avoid;padding:15px;border-radius:12px}.family-blessings-card h3{font-size:22px}.family-names,.family-host-names p,.traditional-invitation-sheet,.traditional-welcome{font-size:10pt}.family-blessings-grid{grid-template-columns:1fr 1fr}.family-host-group{break-inside:avoid}.traditional-invitation-sheet{padding:20px}.family-host-group:last-child .family-host-names{columns:2}
   .site-page[hidden]{display:block!important}.site-page{min-height:0;animation:none!important}.home-explore,.host-actions,.whatsapp-help,.whatsapp-draft{display:none!important}
   main{overflow:visible}
   .reading-progress,.chapter-nav,.invitation-seal-button,.hero-petals,.event-actions,.event-calendar,.personal-plan,.guest-participation,.love-ribbon-wrap,dialog{display:none!important}

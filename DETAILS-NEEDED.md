@@ -1,17 +1,17 @@
 # Details to make this wedding invitation yours
 
-Confirmed: **Prerna Pareek weds Shubham Purohit**, **1–2 December 2026**, **Secunderabad, Hyderabad**. Father: **Sunil Pareek**. Brother and RSVP contact: **Rahul Pareek, 9156704040**. Five event start times are supplied; **Haldi is still to be decided**.
+Confirmed: **Prerna Pareek weds Shubham Purohit**, **1–2 December 2026**, at **Terapanthi Bhavan, D. V. Colony, Secunderabad, Hyderabad**. Bride’s parents: **Vandana and Sunil Vyas**, as printed and confirmed. Brother and RSVP contact: **Rahul Pareek, 9156704040, rahulpareek3366@gmail.com**.
+
+All nine printed ceremonies are included, with Haldi on **2 December at 8:15 am**. Maayra is at **4:31 pm**, Sangeet at **7:31 pm**, and Reception/Pritibhoj from **8:31 pm onwards**. The traditional Hindi invitation, parents, grandparents and host groups from the cards are included.
 
 Copy this list and fill in whatever you have. Unknown details can wait.
 
-1. **Optional title or hashtag** — A preferred wedding title, personal monogram or hashtag.
-2. **Additional family names and invitation** — Mother’s name, groom’s parents, grandparents, other hosts, a personal welcome, blessings or a quotation you want included.
-3. **Remaining programme details** — Haldi date/time, event end times if useful, family-specific Marwari customs, dress codes and any restricted invitations. The five supplied start times are already included.
-4. **Exact venues** — Venue name, full address and Google Maps link for each function in Secunderabad/Hyderabad; a venue photo; parking and accessibility information.
-5. **Your photographs and videos** — Around 10–20 favourite couple/family photos, a preferred hero photo, short captions, and any short video you have permission to share. Tell me which photos are private.
-6. **Your story and personalities** — How you met, a few milestones, favourite shared memories, funny little facts, what each person loves about the other, and favourite quotes. Just a few honest sentences are enough.
-7. **Optional RSVP refinements** — A response deadline, guest limits and any additional dietary/accommodation questions. The site already prepares WhatsApp drafts to Rahul; guests tap Send themselves.
-8. **Travel and hospitality** — Hotel/stay arrangements, check-in dates, station/airport guidance, pickup plans, local family contacts and any useful tips for out-of-town guests.
-9. **Language and atmosphere** — English, Hindi, Marwari or a mix; favourite colours; invitation artwork/monogram; any music you own or have permission to use; rituals or personal touches you especially want celebrated.
+1. **Your photographs and videos** — Around 10–20 favourite couple/family photos, a preferred hero photo, short captions, and any short video you have permission to share. Tell me which photos are private. Current sample photos are explicitly labelled.
+2. **Your story and personalities** — How you met, milestones, favourite shared memories, funny little facts, or what each person loves about the other. A few personal sentences are enough.
+3. **Travel and hospitality** — Hotel/stay arrangements, check-in dates, station/airport guidance, pickup plans and local family contacts.
+4. **Venue extras** — A verified venue pin, venue photograph, parking and accessibility information. Directions currently open a Maps search for the printed address.
+5. **Optional programme refinements** — Event end times, family-specific customs, performance details, compulsory dress codes or any restricted invitations. All printed start times are already included.
+6. **Optional RSVP refinements** — A response deadline, guest limits and dietary/accommodation questions. The site prepares WhatsApp drafts to Rahul; guests tap Send themselves. Phone and email links are also available.
+7. **Language and personal touches** — A preferred hashtag, monogram, music you have permission to use, favourite quotes or Marwari phrases. English and Hindi are already used throughout the invitation and programme.
 
-Real stories and photographs will make the biggest difference to how personal the website feels. The sample photos are explicitly labelled. The exact venue address and Haldi timing will be added when supplied.
+Real stories and photographs will make the biggest difference to how personal the website feels.

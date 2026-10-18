@@ -43,7 +43,7 @@ export function enhanceInvitation({config, downloadCalendar, toast, formatDate, 
     }));
     $('#plan-empty').hidden = events.length > 0;
     const pending = events.filter(event => !hasDate(event)).length;
-    $('#plan-status').textContent = events.length ? `${events.length} celebration${events.length === 1 ? '' : 's'} in your plan.${pending ? ' Haldi’s date and time are to be decided; it is not included in calendar downloads.' : ''} This is not an RSVP yet.` : 'No celebrations selected yet.';
+    $('#plan-status').textContent = events.length ? `${events.length} celebration${events.length === 1 ? '' : 's'} in your plan.${pending ? ' Events awaiting their timing are not included in calendar downloads.' : ''} This is not an RSVP yet.` : 'No celebrations selected yet.';
     $('#plan-calendar').disabled = !events.some(hasDate);
     $('#plan-rsvp').disabled = !events.length;
     if (!rsvpEnabled) $('#plan-rsvp').textContent = 'Read the RSVP update ↗';
@@ -124,7 +124,7 @@ export function enhanceInvitation({config, downloadCalendar, toast, formatDate, 
     calendar.addEventListener('click', () => downloadCalendar(event));
     actions.append(plan, calendar);
     content.replaceChildren(icon, make('p', 'eyebrow', event.kind), title, make('p', 'detail-lead', experience.lead), schedule);
-    content.append(make('p', 'detail-preview', hasDate(event) ? 'All times are in India Standard Time. The venue name and exact address will follow.' : 'The Haldi date and time are still to be decided.'));
+    content.append(make('p', 'detail-preview', hasDate(event) ? `All times are in India Standard Time. ${config.venue.name}, ${config.venue.address}.` : 'This event’s date and time are still to be decided.'));
     content.append(highlights, dress);
     if (experience.prompt) content.append(make('p', 'detail-prompt', experience.prompt));
     content.append(actions);

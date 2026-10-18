@@ -29,7 +29,7 @@ export function calendarFile(config, events, now = new Date()) {
   for (const event of scheduled) {
     lines.push('BEGIN:VEVENT',`UID:${event.id}-${stamp(event.date)}@wedding-celebration.local`,`DTSTAMP:${stamp(now)}`,`DTSTART:${stamp(event.date)}`);
     if (event.end && Date.parse(event.end) > Date.parse(event.date)) lines.push(`DTEND:${stamp(event.end)}`);
-    lines.push(`SUMMARY:${escapeCalendar(`${event.title} · ${names.bride} & ${names.groom}`)}`,`LOCATION:${escapeCalendar(config.venue.address)}`,`DESCRIPTION:${escapeCalendar(`${event.description}\n${config.venue.note}\nRSVP: ${config.contact.name}, ${config.contact.phone}`)}`,'END:VEVENT');
+    lines.push(`SUMMARY:${escapeCalendar(`${event.title} · ${names.bride} & ${names.groom}`)}`,`LOCATION:${escapeCalendar(`${config.venue.name}, ${config.venue.address}`)}`,`DESCRIPTION:${escapeCalendar(`${event.description}\n${config.venue.note}\nRSVP: ${config.contact.name}, ${config.contact.phone}\nEmail: ${config.contact.email}`)}`,'END:VEVENT');
   }
   lines.push('END:VCALENDAR');
   return {text:lines.map(fold).join('\r\n')+'\r\n', scheduled:scheduled.length, pending:events.length-scheduled.length};

@@ -23,9 +23,11 @@ $('#hero-city').textContent = config.city;
 $('#footer-date').textContent = daysLabel.toUpperCase() + ' · ' + config.city.toUpperCase();
 $('#name-note').hidden = true;
 $('#preview-notice').hidden = !config.preview;
-$('#schedule-note').textContent = 'All times are in India Standard Time. Haldi date and time, and the exact venue address, will follow.';
+$('#schedule-note').textContent = 'All ceremonies are at Terapanthi Bhavan, D. V. Colony, Secunderabad. All times are in India Standard Time, as printed in the invitation.';
 $('#family-father').textContent = config.family.father;
+$('#family-mother').textContent = config.family.mother;
 $('#family-brother').textContent = config.family.brother;
+renderPrintedInvitation();
 const whatsappMode = runtime.rsvpMode === 'whatsapp';
 const rsvpEnabled = runtime.rsvpEnabled !== false;
 $('#rsvp-form').hidden = !rsvpEnabled;
@@ -37,6 +39,7 @@ $('.rsvp-deadline').hidden = !config.rsvpDeadline;
 if (config.rsvpDeadline) $('#rsvp-deadline').textContent = formatDate(config.rsvpDeadline,{day:'numeric',month:'long',year:'numeric'});
 document.querySelectorAll('[data-rsvp-name]').forEach(el => el.textContent = config.contact.name);
 document.querySelectorAll('[data-rsvp-phone]').forEach(el => { el.textContent = config.contact.displayPhone; el.href = 'tel:' + config.contact.phone; });
+document.querySelectorAll('[data-rsvp-email]').forEach(el => { el.textContent = config.contact.email; el.href = 'mailto:' + config.contact.email; el.hidden = !config.contact.email; });
 $('#direct-whatsapp').href = 'https://wa.me/' + config.contact.phone.replace(/\D/g,'') + '?text=' + encodeURIComponent('Hello Rahul, I would like to RSVP for Prerna Pareek and Shubham Purohit’s wedding.');
 $('#whatsapp-help').hidden = !whatsappMode;
 const titleWords = config.story.title.split('. ');
@@ -46,6 +49,7 @@ $('#story-copy').replaceChildren(...config.story.paragraphs.map(text => make('p'
 $('.invitation-signoff>span').textContent = names.bride + ', ' + names.groom + ' & families';
 $('#venue-name').textContent = config.venue.name;
 $('#venue-address').textContent = config.venue.address;
+$('#venue-address-hindi').textContent = config.venue.addressHindi;
 $('#venue-note').textContent = config.venue.note;
 if (config.venue.mapsUrl && safeUrl(config.venue.mapsUrl)) { $('#directions-link').href = safeUrl(config.venue.mapsUrl); $('#directions-link').hidden = false; $('#directions-pending').hidden = true; }
 if (config.contact.phone || config.contact.email) {
@@ -67,20 +71,46 @@ if ('IntersectionObserver' in window) {
 let toastTimer;
 function toast(message) { clearTimeout(toastTimer); $('#toast').textContent = message; $('#toast').hidden = false; toastTimer = setTimeout(()=>$('#toast').hidden=true,5000); }
 
+function renderPrintedInvitation() {
+  const printed = config.printedInvitation;
+  const hindi = (tag,className,text) => { const el=make(tag,className,text);el.lang='hi';return el; };
+  $('#traditional-blessings').replaceChildren(...printed.blessings.map(text=>hindi('p','',text)));
+  $('#traditional-greeting').textContent = printed.greeting;
+  $('#traditional-opening').textContent = printed.opening;
+  $('#traditional-bride').textContent = printed.bride;
+  $('#traditional-groom').textContent = printed.groom;
+  $('#traditional-tithi').textContent = printed.tithi;
+  $('#traditional-welcome').textContent = printed.invitation;
+  $('#baraat-family-note').textContent = printed.baraat;
+  $('#traditional-families').replaceChildren(...printed.families.map(family=>{
+    const article=make('article','family-blessings-card');
+    article.append(make('p','eyebrow',family.side),hindi('h3','',family.name),make('p','family-role','PARENTS'),hindi('p','family-names',family.parents),make('p','family-role','GRANDPARENTS'),hindi('p','family-names',family.grandparents));
+    return article;
+  }));
+  $('#extended-family').replaceChildren(...printed.hostGroups.map(group=>{
+    const details=make('details','family-host-group');
+    const summary=hindi('summary','',group.title);
+    const content=make('div','family-host-names');
+    content.append(...group.lines.map(text=>hindi('p','',text)));
+    details.append(summary,content);return details;
+  }));
+}
+
 function downloadCalendar(event) {
   const events = Array.isArray(event) ? event : [event];
   const calendar = calendarFile(config,events);
-  if (!calendar.scheduled) { toast('Haldi’s date and time are still to be decided. A calendar entry will be available once confirmed.'); return; }
+  if (!calendar.scheduled) { toast('A calendar entry will be available once the event timing is confirmed.'); return; }
   const url = URL.createObjectURL(new Blob([calendar.text],{type:'text/calendar;charset=utf-8'}));
   const link=make('a'); link.href=url; link.download=events.length>1?'wedding-my-celebrations.ics':'wedding-'+events[0].id+'.ics';
   document.body.append(link); link.click(); link.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
-  toast(calendar.pending ? 'Confirmed events downloaded. Haldi will be added when its date and time are decided.' : 'Calendar downloaded. The exact venue address will follow.');
+  toast(calendar.pending ? 'Confirmed events downloaded. Events without a time are not included.' : 'Calendar downloaded. Venue: '+config.venue.name+', Secunderabad.');
 }
 
 document.querySelectorAll('[data-calendar]').forEach(button=>button.addEventListener('click',()=>{const event=config.events.find(e=>e.id===button.dataset.calendar);if(event)downloadCalendar(event)}));
 function renderEvents(day = 'all') {
   $('#events-grid').replaceChildren(...config.events.filter(event=>day==='all'||eventDay(event,config.timezone)===day).map(event=>{
     const article=make('article',`event-card ${event.theme}`);article.dataset.eventId=event.id;article.append(svg(event.icon),make('span','event-kind',event.kind),make('h3','',event.title));article.firstChild.classList.add('event-icon');
+    if(event.titleHindi){const titleHindi=make('p','event-hindi-title',event.titleHindi);titleHindi.lang='hi';article.append(titleHindi);}
     const date=make(hasDate(event)?'time':'p','event-time',eventWhen(event,config.timezone));if(hasDate(event))date.dateTime=event.date;
     article.append(date,make('p','event-place',event.place),make('p','event-description',event.description));
     const dress=make('p','event-dress');dress.append(make('span','','THE DRESS MOOD'),document.createTextNode(event.dress));article.append(dress);

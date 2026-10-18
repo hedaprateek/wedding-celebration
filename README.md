@@ -4,7 +4,7 @@ A colourful Marwari wedding invitation with six separate views: Home, Invitation
 
 **Public preview:** https://hedaprateek.github.io/wedding-celebration/
 
-The public site opens RSVP responses as a WhatsApp draft to **Rahul Pareek, +91 91567 04040**, the bride’s brother. Guests review the message and tap Send themselves. Nothing is sent automatically, and the public site does not store guest records. Calling Rahul directly is also available. Photos remain clearly labelled as illustrative until family photographs are supplied.
+The public site opens RSVP responses as a WhatsApp draft to **Rahul Pareek, +91 91567 04040**, the bride’s brother. Guests review the message and tap Send themselves. Nothing is sent automatically, and the public site does not store guest records. Guests can also call Rahul or email **rahulpareek3366@gmail.com**. Photos remain clearly labelled as illustrative until family photographs are supplied.
 
 ## Open locally
 
@@ -16,20 +16,23 @@ A fill-in list of the information needed to personalise the invitation is in **D
 
 ## Details to finalise
 
-Confirmed: **Prerna Pareek and Shubham Purohit**, **1–2 December 2026**, **Secunderabad, Hyderabad**. The bride’s father is **Sunil Pareek**; her brother and RSVP contact is **Rahul Pareek**.
+Confirmed: **Prerna Pareek and Shubham Purohit**, **1–2 December 2026**, at **Terapanthi Bhavan, D. V. Colony, Secunderabad, Hyderabad**. As confirmed by the family, the bride keeps the surname Pareek and her parents are **Vandana and Sunil Vyas**. Her brother and RSVP contact is **Rahul Pareek**. The Invitation view includes the printed Hindi invitation, both families’ parents and grandparents, and expandable host groups.
 
 | Event | Date | Time (IST) |
 | --- | --- | --- |
-| Tilak – Engagement | Tuesday, 1 December 2026 | 9:15 am |
-| Maayra | Tuesday, 1 December 2026 | 4:30 pm |
-| Sangeet | Tuesday, 1 December 2026 | 7:30 pm |
-| Phera | Wednesday, 2 December 2026 | 3:15 pm |
-| Reception | Wednesday, 2 December 2026 | 8:30 pm |
-| Haldi | To be decided | To be decided |
+| Tilak Chhantna | Tuesday, 1 December 2026 | 9:15 am |
+| Chak Pujan | Tuesday, 1 December 2026 | 10:15 am |
+| Vinayak Pujan | Tuesday, 1 December 2026 | 12:15 pm |
+| Maayra | Tuesday, 1 December 2026 | 4:31 pm |
+| Sangeet Sandhya | Tuesday, 1 December 2026 | 7:31 pm |
+| Haldi | Wednesday, 2 December 2026 | 8:15 am |
+| Baraat Swagat | Wednesday, 2 December 2026 | 12:15 pm |
+| Phera · Panigrahan Sanskar | Wednesday, 2 December 2026 | 3:15 pm |
+| Reception & Pritibhoj | Wednesday, 2 December 2026 | 8:31 pm onwards |
 
-The venue name and exact address, Haldi timing, real photos, travel/stay arrangements, any compulsory dress code and an RSVP deadline still need confirmation. No event end times or RSVP deadline have been invented.
+The programme follows the supplied printed invitation, including its precise 4:31 pm, 7:31 pm and 8:31 pm times. Real photos, travel/stay arrangements, any compulsory dress code and an RSVP deadline still need confirmation. No event end times or RSVP deadline have been invented. Directions open a Google Maps search for the supplied venue address.
 
-Edit **site.config.js** to update names, story, events, dress suggestions, venue, directions, family contact, photos and dates. Include a time-zone offset in every confirmed date; leave an unconfirmed event’s date as `null`. Calendar downloads include confirmed starts only, omit Haldi while undated, and include no end time unless the family supplies one. The sample portraits do not depict Prerna or Shubham.
+Edit **site.config.js** to update names, story, events, dress suggestions, venue, directions, family contact, traditional invitation, photos and dates. Include a time-zone offset in every confirmed date; leave an unconfirmed event’s date as `null`. Calendar downloads include all nine confirmed starts and include no end time unless the family supplies one. The sample portraits do not depict Prerna or Shubham.
 
 Restart the preview after changing the configuration so the RSVP backend and invitation use the same event list.
 
@@ -51,7 +54,7 @@ The local Node runtime is separately configured in `runtime.js` to keep the orig
 
 The GitHub Actions workflow in `.github/workflows/pages.yml` checks the scripts, runs the tests, and publishes `npm run build` output to GitHub Pages whenever `main` changes. Select **GitHub Actions** as the Pages publishing source in repository settings.
 
-The build creates `dist/` from an explicit list of public files. It excludes `.data`, the local guest-list dashboard, server code, test fixtures and project documents, and replaces `runtime.js` with WhatsApp settings. Without JavaScript, guests can use the direct WhatsApp and phone links. Event planning, calendar downloads, photos, invitation letters and reduced-motion controls still work.
+The build creates `dist/` from an explicit list of public files. It excludes `.data`, the local guest-list dashboard, server code, test fixtures and project documents, and replaces `runtime.js` with WhatsApp settings. Without JavaScript, guests can read the complete programme and invitation and use direct WhatsApp, phone and email links. With JavaScript, event planning, calendar downloads, photos, invitation letters and reduced-motion controls are available.
 
 ## Optional hosted RSVP storage
 
@@ -63,4 +66,4 @@ The invitation supports keyboard navigation and reduced motion, has a “Calm th
 
 ## Verify
 
-`npm run check` validates JavaScript. `npm test` checks the exact supplied event times, undated Haldi, calendar UTC conversion, WhatsApp draft encoding, public artifact and private RSVP handling. The public artifact excludes host pages and guest data. The local preview, build and all tests use only Node’s built-in modules.
+`npm run check` validates JavaScript. `npm test` checks all nine printed event times, family/contact details, calendar UTC conversion, WhatsApp draft encoding, public artifact and private RSVP handling. The public artifact excludes host pages and guest data. The local preview, build and all tests use only Node’s built-in modules.

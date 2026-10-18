@@ -17,7 +17,13 @@ test('Pages includes six navigation views and a WhatsApp RSVP flow without guest
   assert.match(runtime,/"rsvpEndpoint":null/);
   assert.equal((html.match(/class="site-page"/g)||[]).length,6);
   assert.match(html,/Prerna Pareek weds Shubham Purohit/);
-  assert.match(html,/Sunil Pareek/);
+  assert.match(html,/Sunil Vyas/);
+  assert.match(html,/Vandana Vyas/);
+  assert.match(html,/Terapanthi Bhavan/);
+  assert.match(html,/mailto:rahulpareek3366@gmail.com/);
+  assert.match(html,/सौ\. शारदादेवी/);
+  assert.match(html,/श्रीकांत सुनील व्यास/);
+  assert.doesNotMatch(html,/Haldi.{0,30}to be decided|exact venue details to follow/i);
   assert.match(html,/https:\/\/wa.me\/919156704040/);
   assert.match(html,/Stunity Tech — by <b>Prateek<\/b>/);
   const files=await readdir(output);
