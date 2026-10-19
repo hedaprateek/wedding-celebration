@@ -1,6 +1,7 @@
 // Family-supplied schedule. An undated event stays null until its timing is confirmed.
 export default {
   preview: true,
+  siteUrl: 'https://hedaprateek.github.io/wedding-celebration/',
   couple: { first: 'Prerna', firstSurname: 'Pareek', second: 'Shubham', secondSurname: 'Purohit', initials: 'P & S' },
   family: { father: 'Sunil Vyas', mother: 'Vandana Vyas', brother: 'Rahul Pareek' },
   weddingDate: '2026-12-02T15:15:00+05:30',

@@ -1,0 +1,32 @@
+name: Check wedding email delivery
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: Check the connection or request the one-time recipient activation
+        required: true
+        default: check
+        type: choice
+        options:
+          - check
+          - activate
+
+permissions:
+  contents: read
+
+jobs:
+  email:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - name: Check or activate the email relay
+        env:
+          EMAIL_SETUP_ACTION: ${{ inputs.operation }}
+        run: node scripts/check-email.mjs
