@@ -4,13 +4,13 @@ import {access,readFile,readdir} from 'node:fs/promises';
 import {join} from 'node:path';
 import {buildStatic} from '../scripts/build-static.mjs';
 
-test('Pages includes six navigation views and a WhatsApp RSVP flow without guest records or server pages',async()=>{
+test('Pages includes six navigation views and a wishes flow and downloadable itinerary without guest records or server pages',async()=>{
   const output=await buildStatic();
   const html=await readFile(join(output,'index.html'),'utf8');
   const runtime=await readFile(join(output,'runtime.js'),'utf8');
   assert.match(html,/<form hidden class="rsvp-form" id="rsvp-form"/);
   assert.match(html,/id="rsvp-unavailable" tabindex="-1" hidden>/);
-  assert.match(html,/Tap Send in WhatsApp to deliver it/);
+  assert.match(html,/Your wishes open as a WhatsApp draft/);
   assert.doesNotMatch(html,/Responses are saved to this local guest list/);
   assert.match(runtime,/"rsvpEnabled":true/);
   assert.match(runtime,/"rsvpMode":"whatsapp"/);
@@ -26,9 +26,12 @@ test('Pages includes six navigation views and a WhatsApp RSVP flow without guest
   assert.doesNotMatch(html,/Haldi.{0,30}to be decided|exact venue details to follow/i);
   assert.match(html,/https:\/\/wa.me\/919156704040/);
   assert.match(html,/Stunity Tech — by <b>Prateek<\/b>/);
+  assert.match(html,/Download 2-day itinerary/);assert.match(html,/name="kind" value="wish"/);assert.doesNotMatch(html,/name="attendance"|name="events"|name="guests"|id="personal-plan"|data-calendar/);
+  const pdf=await readFile(join(output,'wedding-itinerary.pdf'));assert.ok(pdf.toString('latin1').startsWith('%PDF-1.4'));
   const files=await readdir(output);
-  for(const name of ['.data','server.mjs','guest-list.html','guest-list.js','guest-list.css','tests','.git','README.md'])assert.equal(files.includes(name),false,name);
-  for(const name of ['app.js','experience.js','navigation.js','invitation-utils.js','runtime.js','site.config.js','styles.css','experience.css','assets/photos/couple-hero.jpg','assets/stunity-credit.css'])await access(join(output,name));
+  assert.doesNotMatch(html,/src="review\.js"|href="review\.css"/);
+  for(const name of ['.data','server.mjs','guest-list.html','guest-list.js','guest-list.css','review.js','review.css','review-store.mjs','itinerary.mjs','tests','.git','README.md'])assert.equal(files.includes(name),false,name);
+  for(const name of ['app.js','experience.js','navigation.js','invitation-utils.js','runtime.js','site.config.js','styles.css','experience.css','refinements.css','assets/photos/couple-hero.jpg','assets/stunity-credit.css'])await access(join(output,name));
   for(const name of files.filter(name=>name.endsWith('.js'))){
     const script=await readFile(join(output,name),'utf8');
     for(const match of script.matchAll(/from ['"]\.\/([^'"]+)['"]/g))await access(join(output,match[1]));

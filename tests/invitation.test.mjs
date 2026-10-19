@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import config from '../site.config.js';
-import {fullNames,hasDate,eventDay,eventWhen,calendarFile,whatsappRsvp} from '../invitation-utils.js';
+import {createItinerary} from '../itinerary.mjs';
+import {fullNames,hasDate,eventDay,eventWhen,whatsappWish} from '../invitation-utils.js';
 
 test('Family names, venue, email and all nine printed start times are exact',()=>{
   assert.deepEqual(fullNames(config),{bride:'Prerna Pareek',groom:'Shubham Purohit'});
@@ -18,23 +19,18 @@ test('Family names, venue, email and all nine printed start times are exact',()=
   assert.match(eventWhen(config.events[0],config.timezone),/Tue/);
   assert.match(eventWhen(config.events.find(event=>event.id==='wedding'),config.timezone),/Wed/);
 });
-test('Calendar includes every printed time and venue, and invents no end times',()=>{
-  const calendar=calendarFile(config,config.events,new Date('2026-10-17T00:00:00Z'));
-  const text=calendar.text.replace(/\r\n /g,'');
-  assert.equal(calendar.scheduled,9);assert.equal(calendar.pending,0);
-  assert.equal((text.match(/BEGIN:VEVENT/g)||[]).length,9);
-  for(const stamp of ['20261201T034500Z','20261201T044500Z','20261201T064500Z','20261201T110100Z','20261201T140100Z','20261202T024500Z','20261202T064500Z','20261202T094500Z','20261202T150100Z'])assert.ok(text.includes('DTSTART:'+stamp),stamp);
-  assert.doesNotMatch(text,/DTEND:|1970|Provisional/);
-  assert.match(text,/LOCATION:Terapanthi Bhavan/);assert.match(text,/rahulpareek3366@gmail.com/);
-  const unscheduled={...config.events[0],date:null};
-  assert.equal(calendarFile(config,[unscheduled]).scheduled,0);assert.equal(eventDay(unscheduled,config.timezone),'pending');
+test('Wishes draft preserves sender and message without claiming attendance',()=>{
+  const response={name:'Family & Friends',contact:'+91 90000 00000',note:'May your life be full of love & laughter. शुभकामनाएँ ♡'};
+  const draft=whatsappWish(config,response),url=new URL(draft.url);
+  assert.equal(url.origin,'https://wa.me');assert.equal(url.pathname,'/919156704040');assert.equal(url.searchParams.get('text'),draft.text);
+  for(const text of ['Wedding wishes for Prerna & Shubham',response.name,response.contact,response.note])assert.ok(draft.text.includes(text),text);
+  assert.doesNotMatch(draft.text,/Guests:|attending|unable to attend|Celebrations:|RSVP/);
 });
-test('WhatsApp RSVP targets Rahul, preserves user text and distinguishes attendance from warm wishes',()=>{
-  const draft=whatsappRsvp(config,{name:'Family & Friends',contact:'+91 90000 00000',attendance:'yes',guests:3,events:['wedding','haldi'],song:'A song + a smile',note:'Vegetarian; warm wishes ♡'});
-  const url=new URL(draft.url);
-  assert.equal(url.origin,'https://wa.me');assert.equal(url.pathname,'/919156704040');
-  assert.equal(url.searchParams.get('text'),draft.text);
-  for(const text of ['Prerna Pareek weds Shubham Purohit','Family & Friends','Guests: 3','Phera','3:15','Haldi','8:15','A song + a smile','Vegetarian; warm wishes ♡'])assert.ok(draft.text.includes(text),text);
-  const decline=whatsappRsvp(config,{name:'Guest',contact:'guest@example.com',attendance:'no',guests:4,events:['wedding']});
-  assert.match(decline.text,/unable to attend/);assert.doesNotMatch(decline.text,/Guests:|Celebrations:/);
+test('Two-day PDF contains every printed time, venue, provisional dress guidance and studio credit',()=>{
+  const bytes=createItinerary(config),pdf=bytes.toString('latin1');
+  assert.ok(pdf.startsWith('%PDF-1.4'));assert.equal((pdf.match(/\/Type \/Page\b/g)||[]).length,2);
+  for(const text of ['Tuesday, 1 December 2026','Wednesday, 2 December 2026','9:15 am','10:15 am','12:15 pm','4:31 pm','7:31 pm','8:15 am','3:15 pm','8:31 pm','Terapanthi Bhavan','D. V. Colony','rahulpareek3366@gmail.com','91567 04040','STUNITY TECH','PRATEEK','Chak Pujan','Vinayak Pujan','Baraat Swagat','Phera / Panigrahan Sanskar'])assert.ok(pdf.includes(text),text);
+  assert.equal((pdf.match(/\(To be confirmed\)/g)||[]).length,9);assert.ok(pdf.includes('https://www.google.com/maps/search/'));assert.ok(pdf.includes('/Subtype /Link'));
+  const offset=Number(pdf.match(/startxref\n(\d+)/)[1]);assert.equal(bytes.subarray(offset,offset+4).toString(),'xref');
+  const changed=structuredClone(config);changed.events[0].dressCode='Pastel pink';const updated=createItinerary(changed).toString('latin1');assert.ok(updated.includes('Pastel pink'));assert.equal((updated.match(/\(To be confirmed\)/g)||[]).length,8);
 });

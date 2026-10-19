@@ -2,7 +2,7 @@ import config from './site.config.js';
 import runtime from './runtime.js';
 import {enhanceInvitation} from './experience.js';
 import {setupNavigation} from './navigation.js';
-import {fullNames, hasDate, eventDay, eventWhen, calendarFile, whatsappRsvp} from './invitation-utils.js';
+import {fullNames, hasDate, eventDay, eventWhen, whatsappWish} from './invitation-utils.js';
 
 const $ = selector => document.querySelector(selector);
 const svg = name => { const el = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); el.setAttribute('aria-hidden', 'true'); const use = document.createElementNS(el.namespaceURI, 'use'); use.setAttribute('href', `#${name}`); el.append(use); return el; };
@@ -16,8 +16,8 @@ const names = fullNames(config);
 const brand = config.couple.first + ' & ' + config.couple.second;
 document.title = names.bride + ' weds ' + names.groom + ' · ' + daysLabel;
 document.querySelectorAll('[data-brand]').forEach(el => el.textContent = brand);
-$('#hero-name').replaceChildren(make('span','hero-given',config.couple.first),make('small','hero-surname',config.couple.firstSurname));
-$('#hero-ending').replaceChildren(make('span','hero-weds','weds'),make('span','hero-given',config.couple.second),make('small','hero-surname',config.couple.secondSurname));
+$('#hero-name').replaceChildren(make('span','hero-given',config.couple.first));
+$('#hero-ending').replaceChildren(make('span','hero-weds','weds'),make('span','hero-given',config.couple.second));
 $('#hero-dates').textContent = daysLabel;
 $('#hero-city').textContent = config.city;
 $('#footer-date').textContent = daysLabel.toUpperCase() + ' · ' + config.city.toUpperCase();
@@ -34,19 +34,17 @@ $('#rsvp-form').hidden = !rsvpEnabled;
 $('#rsvp-unavailable').hidden = rsvpEnabled;
 $('.guest-participation').hidden = !rsvpEnabled;
 $('#rsvp-preview-note').hidden = !whatsappMode && !config.preview;
-$('#rsvp-preview-note').textContent = whatsappMode ? 'Your response opens as a WhatsApp draft to Rahul Pareek. Tap Send in WhatsApp to deliver it.' : 'Local preview: responses are saved to this computer; the family is not notified.';
-$('.rsvp-deadline').hidden = !config.rsvpDeadline;
-if (config.rsvpDeadline) $('#rsvp-deadline').textContent = formatDate(config.rsvpDeadline,{day:'numeric',month:'long',year:'numeric'});
+$('#rsvp-preview-note').textContent = whatsappMode ? 'Your wishes open as a WhatsApp draft to Rahul. Review your message and tap Send in WhatsApp.' : 'Local preview: your wishes are saved on this computer; the family is not notified.';
 document.querySelectorAll('[data-rsvp-name]').forEach(el => el.textContent = config.contact.name);
 document.querySelectorAll('[data-rsvp-phone]').forEach(el => { el.textContent = config.contact.displayPhone; el.href = 'tel:' + config.contact.phone; });
 document.querySelectorAll('[data-rsvp-email]').forEach(el => { el.textContent = config.contact.email; el.href = 'mailto:' + config.contact.email; el.hidden = !config.contact.email; });
-$('#direct-whatsapp').href = 'https://wa.me/' + config.contact.phone.replace(/\D/g,'') + '?text=' + encodeURIComponent('Hello Rahul, I would like to RSVP for Prerna Pareek and Shubham Purohit’s wedding.');
+$('#direct-whatsapp').href = 'https://wa.me/' + config.contact.phone.replace(/\D/g,'') + '?text=' + encodeURIComponent('Hello Rahul, I would like to send my wishes for Prerna and Shubham’s wedding.');
 $('#whatsapp-help').hidden = !whatsappMode;
 const titleWords = config.story.title.split('. ');
 $('#story-title').replaceChildren(document.createTextNode(titleWords[0] + (titleWords.length > 1 ? '.' : '')));
 if (titleWords.length > 1) $('#story-title').append(make('em', '', titleWords.slice(1).join('. ')));
 $('#story-copy').replaceChildren(...config.story.paragraphs.map(text => make('p', '', text)));
-$('.invitation-signoff>span').textContent = names.bride + ', ' + names.groom + ' & families';
+$('.invitation-signoff>span').textContent = config.couple.first + ', ' + config.couple.second + ' & families';
 $('#venue-name').textContent = config.venue.name;
 $('#venue-address').textContent = config.venue.address;
 $('#venue-address-hindi').textContent = config.venue.addressHindi;
@@ -96,26 +94,14 @@ function renderPrintedInvitation() {
   }));
 }
 
-function downloadCalendar(event) {
-  const events = Array.isArray(event) ? event : [event];
-  const calendar = calendarFile(config,events);
-  if (!calendar.scheduled) { toast('A calendar entry will be available once the event timing is confirmed.'); return; }
-  const url = URL.createObjectURL(new Blob([calendar.text],{type:'text/calendar;charset=utf-8'}));
-  const link=make('a'); link.href=url; link.download=events.length>1?'wedding-my-celebrations.ics':'wedding-'+events[0].id+'.ics';
-  document.body.append(link); link.click(); link.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
-  toast(calendar.pending ? 'Confirmed events downloaded. Events without a time are not included.' : 'Calendar downloaded. Venue: '+config.venue.name+', Secunderabad.');
-}
-
-document.querySelectorAll('[data-calendar]').forEach(button=>button.addEventListener('click',()=>{const event=config.events.find(e=>e.id===button.dataset.calendar);if(event)downloadCalendar(event)}));
 function renderEvents(day = 'all') {
   $('#events-grid').replaceChildren(...config.events.filter(event=>day==='all'||eventDay(event,config.timezone)===day).map(event=>{
     const article=make('article',`event-card ${event.theme}`);article.dataset.eventId=event.id;article.append(svg(event.icon),make('span','event-kind',event.kind),make('h3','',event.title));article.firstChild.classList.add('event-icon');
     if(event.titleHindi){const titleHindi=make('p','event-hindi-title',event.titleHindi);titleHindi.lang='hi';article.append(titleHindi);}
     const date=make(hasDate(event)?'time':'p','event-time',eventWhen(event,config.timezone));if(hasDate(event))date.dateTime=event.date;
     article.append(date,make('p','event-place',event.place),make('p','event-description',event.description));
-    const dress=make('p','event-dress');dress.append(make('span','','THE DRESS MOOD'),document.createTextNode(event.dress));article.append(dress);
-    const actions=make('div','event-actions');const explore=make('button','event-explore','A little look inside ↗');explore.type='button';explore.dataset.eventDetail=event.id;explore.setAttribute('aria-haspopup','dialog');explore.setAttribute('aria-controls','celebration-dialog');const plan=make('button','event-plan-toggle','＋ Add to my plan');plan.type='button';plan.dataset.planToggle=event.id;plan.setAttribute('aria-pressed','false');actions.append(explore,plan);article.append(actions);
-    const button=make('button','text-button event-calendar',hasDate(event)?'Add to my calendar ＋':'Calendar available once confirmed');button.type='button';button.disabled=!hasDate(event);button.addEventListener('click',()=>downloadCalendar(event));article.append(button);return article;
+    const dress=make('p','event-dress');dress.append(make('span','',event.dressCode?'DRESS CODE':'OUTFIT INSPIRATION'),document.createTextNode(event.dressCode||event.dress));article.append(dress);
+    const actions=make('div','event-actions');const explore=make('button','event-explore','About the ceremony ↗');explore.type='button';explore.dataset.eventDetail=event.id;explore.setAttribute('aria-haspopup','dialog');explore.setAttribute('aria-controls','celebration-dialog');actions.append(explore);article.append(actions);return article;
   }));
   document.dispatchEvent(new Event('wedding:events-rendered'));
 }
@@ -154,39 +140,29 @@ function celebrate() {
 }
 $('#confetti-button').addEventListener('click',celebrate);
 
-$('#rsvp-events').replaceChildren();
-config.events.forEach(event=>{const label=make('label');const input=make('input');input.type='checkbox';input.name='events';input.value=event.id;input.defaultChecked=['wedding','reception'].includes(event.id);input.checked=input.defaultChecked;label.append(input,document.createTextNode(event.title));$('#rsvp-events').append(label);});
-const eventInputs=[...document.querySelectorAll('#rsvp-events input')];
-function updateAttendance(){const attending=$('input[name=attendance]:checked').value==='yes';$('#attending-fields').hidden=!attending;$('#attending-fields').querySelectorAll('input,select').forEach(el=>el.disabled=!attending);eventInputs.forEach(el=>el.setCustomValidity(''));$('#submit-rsvp').firstChild.textContent=whatsappMode?'Review in WhatsApp ':attending?'Send my RSVP ':'Send my warm wishes ';}
-document.querySelectorAll('[name=attendance]').forEach(input=>input.addEventListener('change',updateAttendance));eventInputs.forEach(input=>input.addEventListener('change',()=>eventInputs.forEach(el=>el.setCustomValidity(''))));
+$('#submit-rsvp').firstChild.textContent=whatsappMode?'Review wishes in WhatsApp ':'Save my wishes ';
 let lastAttempt;
 $('#rsvp-form').addEventListener('submit',async event=>{
   event.preventDefault();
-  if (!rsvpEnabled) { toast('Online RSVPs are not open yet. Please wait for the family’s final invitation.'); return; }
-  const form=event.currentTarget;const data=new FormData(form);const attending=data.get('attendance')==='yes';
-  if(attending&&!data.getAll('events').length){eventInputs[0].setCustomValidity('Please choose at least one celebration.');eventInputs[0].reportValidity();return;}
-  if(!form.reportValidity())return;
-  const payload={name:String(data.get('name')||'').trim(),contact:String(data.get('contact')||'').trim(),attendance:data.get('attendance'),guests:attending?Number(data.get('guests')):0,events:attending?data.getAll('events'):[],note:String(data.get('note')||'').trim(),song:String(data.get('song')||'').trim(),consent:data.get('consent')==='yes',website:String(data.get('website')||'')};
-  if(!payload.name){$('#guest-name').setCustomValidity('Please enter your name.');$('#guest-name').reportValidity();return;}
-  if (whatsappMode) {
-    const draft = whatsappRsvp(config,payload);
-    const link = $('#whatsapp-draft'); link.href = draft.url; link.hidden = false;
-    const status = $('#form-status'); status.hidden = false; status.classList.remove('error');
-    status.textContent = 'Your WhatsApp draft is ready. Tap Send in WhatsApp to deliver your response to Rahul. Nothing has been sent automatically.';
-    window.open(draft.url,'_blank','noopener,noreferrer');
-    status.focus({preventScroll:true});
-    return;
+  if(!rsvpEnabled){toast('Please contact Rahul directly to share your wishes.');return;}
+  const form=event.currentTarget;if(!form.reportValidity())return;const fields=new FormData(form);
+  const payload={kind:'wish',name:String(fields.get('name')||'').trim(),contact:String(fields.get('contact')||'').trim(),note:String(fields.get('note')||'').trim(),consent:fields.get('consent')==='yes',website:String(fields.get('website')||'')};
+  for(const [id,value,message] of [['guest-name',payload.name,'Please enter your name.'],['guest-note',payload.note,'Please write a message for the couple.']])if(!value){$('#'+id).setCustomValidity(message);$('#'+id).reportValidity();return;}
+  if(whatsappMode){
+    const draft=whatsappWish(config,payload);const link=$('#whatsapp-draft');link.href=draft.url;link.hidden=false;
+    const status=$('#form-status');status.hidden=false;status.classList.remove('error');status.textContent='Your wishes are ready in WhatsApp. Tap Send there to deliver your message to Rahul for the couple. Nothing has been sent automatically.';
+    window.open(draft.url,'_blank','noopener,noreferrer');status.focus({preventScroll:true});return;
   }
   const signature=JSON.stringify(payload);if(!lastAttempt||lastAttempt.signature!==signature)lastAttempt={signature,id:crypto.randomUUID()};payload.requestId=lastAttempt.id;
-  const status=$('#form-status');status.hidden=false;status.classList.remove('error');status.textContent='Saving your response…';$('#submit-rsvp').disabled=true;
+  const status=$('#form-status');status.hidden=false;status.classList.remove('error');status.textContent='Saving your wishes…';$('#submit-rsvp').disabled=true;
   try{
-    const response=await fetch(runtime.rsvpEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const result=await response.json();if(!response.ok)throw Error(result.error||'We could not save your response. Please try again.');
-    status.textContent=result.message;lastAttempt=undefined;form.reset();$('#rsvp-plan-note').hidden=true;updateAttendance();if(attending)celebrate();status.focus({preventScroll:true});
-  }catch(error){status.classList.add('error');status.textContent=error.message==='Failed to fetch'||error instanceof SyntaxError?'Your response was not confirmed. Please check your connection and try again.':error.message;status.focus({preventScroll:true});}
+    const response=await fetch(runtime.rsvpEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const result=await response.json();if(!response.ok)throw Error(result.error||'We could not save your wishes. Please try again.');
+    status.textContent=result.message;lastAttempt=undefined;form.reset();celebrate();status.focus({preventScroll:true});
+  }catch(error){status.classList.add('error');status.textContent=error.message==='Failed to fetch'||error instanceof SyntaxError?'Your wishes were not confirmed. Please check your connection and try again.':error.message;status.focus({preventScroll:true});}
   finally{$('#submit-rsvp').disabled=false;}
 });
-$('#guest-name').addEventListener('input',event=>event.target.setCustomValidity(''));
+for(const id of ['guest-name','guest-note'])$('#'+id).addEventListener('input',event=>event.target.setCustomValidity(''));
+
 document.querySelectorAll('img').forEach(img=>img.addEventListener('error',()=>{img.classList.add('image-unavailable');img.alt+=' · Image currently unavailable';}));
 const navigateTo = setupNavigation();
-enhanceInvitation({config,downloadCalendar,celebrate,toast,formatDate,rsvpEnabled,navigateTo});
-updateAttendance();
+enhanceInvitation({config,rsvpEnabled,navigateTo});

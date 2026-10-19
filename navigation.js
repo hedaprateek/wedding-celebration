@@ -2,7 +2,7 @@
 export function setupNavigation() {
   const pages = [...document.querySelectorAll('.site-page[data-page]')];
   const baseTitle = document.title;
-  const labels = {home:'Home',invitation:'Invitation',celebrations:'Events',memories:'Photos',travel:'Venue',rsvp:'RSVP'};
+  const labels = {home:'Home',invitation:'Invitation',celebrations:'Events',memories:'Photos',travel:'Venue',rsvp:'Wishes'};
   let lastHash;
   function resolvePage(id) {
     const target = document.getElementById(id);

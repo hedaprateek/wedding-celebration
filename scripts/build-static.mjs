@@ -2,6 +2,7 @@ import {cp,lstat,mkdir,readFile,realpath,rm,writeFile} from 'node:fs/promises';
 import {basename,dirname,join,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import config from '../site.config.js';
+import {createItinerary} from '../itinerary.mjs';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 export async function buildStatic(){
@@ -15,7 +16,8 @@ export async function buildStatic(){
   }
   await mkdir(output,{recursive:true});
   // Only public invitation files belong in the Pages artifact. Guest data and host pages stay out.
-  for(const name of ['app.js','experience.js','navigation.js','invitation-utils.js','site.config.js','styles.css','experience.css','assets'])await cp(join(root,name),join(output,name),{recursive:true,dereference:false});
+  for(const name of ['app.js','experience.js','navigation.js','invitation-utils.js','site.config.js','styles.css','experience.css','refinements.css','assets'])await cp(join(root,name),join(output,name),{recursive:true,dereference:false});
+  await writeFile(join(output,'wedding-itinerary.pdf'),createItinerary(config));
   let html=await readFile(join(root,'index.html'),'utf8');
   html=html.replace('</head>','  <meta name="robots" content="noindex, nofollow">\n</head>');
   html=html.replace('<form class="rsvp-form" id="rsvp-form"','<form hidden class="rsvp-form" id="rsvp-form"');
