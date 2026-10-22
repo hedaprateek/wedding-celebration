@@ -8,7 +8,6 @@ export function enhanceInvitation({config, rsvpEnabled = true, navigateTo}) {
     if (text !== undefined) element.textContent = text;
     return element;
   };
-  const calm = () => document.documentElement.dataset.calm === 'true';
   const dateLabel=event=>eventWhen(event,config.timezone);
   function goTo(id,focusTarget){navigateTo(id,{focusTarget});}
 
@@ -85,25 +84,4 @@ export function enhanceInvitation({config, rsvpEnabled = true, navigateTo}) {
     const heroObserver = new IntersectionObserver(entries => hero.classList.toggle('hero-awake', entries[0].isIntersecting));
     heroObserver.observe(hero);
   } else hero.classList.add('hero-awake');
-  const visual = $('.hero-visual');
-  const pointer = matchMedia('(hover:hover) and (pointer:fine)');
-  let pointerFrame = 0;
-  hero.addEventListener('pointermove', event => {
-    if (calm() || !pointer.matches) return;
-    cancelAnimationFrame(pointerFrame);
-    const {clientX, clientY} = event;
-    pointerFrame = requestAnimationFrame(() => {
-      if (calm()) return;
-      const rect = hero.getBoundingClientRect();
-      visual.style.setProperty('--parallax-x', `${((clientX - rect.left) / rect.width - .5) * 12}px`);
-      visual.style.setProperty('--parallax-y', `${((clientY - rect.top) / rect.height - .5) * 9}px`);
-    });
-  });
-  function resetParallax() {
-    cancelAnimationFrame(pointerFrame);
-    visual.style.removeProperty('--parallax-x');
-    visual.style.removeProperty('--parallax-y');
-  }
-  hero.addEventListener('pointerleave', resetParallax);
-  new MutationObserver(resetParallax).observe(document.documentElement, {attributes:true, attributeFilter:['data-calm']});
 }
