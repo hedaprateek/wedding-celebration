@@ -13,6 +13,7 @@ const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=u
 const publicFiles=new Set(['index.html','app.js','experience.js','navigation.js','invitation-utils.js','runtime.js','site.config.js','styles.css','experience.css','assets/stunity-credit.css','assets/favicon.svg','assets/florals.svg','assets/palace.svg','assets/fonts/fonts.css',...config.gallery.map(p=>p.src)]);
 for(let i=1;i<=10;i++)publicFiles.add(`assets/fonts/font-${i}.woff2`);
 publicFiles.add('refinements.css');
+publicFiles.add('wish-email.js');
 class RequestError extends Error{constructor(status,message){super(message);this.status=status;}}
 const cleanText=(value,max,required=false)=>{if(typeof value!=='string'||value.length>max||value.includes('\0')||(required&&!value.trim()))throw new RequestError(400,'Please check your name, contact details and message.');return value.trim();};
 export function validateRsvp(value){
@@ -46,7 +47,7 @@ export async function createWeddingServer({dataDirectory=resolve(root,'.data'),p
   const message=kind=>kind==='wish'?(config.preview?'Thank you! Your wishes are saved on this computer. The family has not been notified.':'Thank you! Your wishes have been saved for the family.'):(config.preview?'Thank you! Your preview RSVP has been saved to this computer’s guest list. The family has not been notified.':'Thank you! Your response has been recorded for the wedding hosts. We’re grateful for your warm wishes.');
   const server=http.createServer(async(request,response)=>{
     response.setHeader('X-Content-Type-Options','nosniff');response.setHeader('Referrer-Policy','same-origin');response.setHeader('X-Frame-Options','DENY');
-    response.setHeader('Content-Security-Policy',"default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'");
+    response.setHeader('Content-Security-Policy',"default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self' https://formsubmit.co; object-src 'none'; base-uri 'none'; form-action 'self' https://formsubmit.co; frame-ancestors 'none'");
     try{
       const host=request.headers.host||'';let origin;
       try{origin=new URL('http://'+host);}catch{throw new RequestError(421,'Unknown host.');}

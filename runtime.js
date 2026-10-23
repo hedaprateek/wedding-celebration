@@ -1,2 +1,2 @@
-// The local Node server saves preview wishes. The Pages build replaces this file.
-export default {rsvpEnabled:true, rsvpMode:'local', rsvpEndpoint:'api/rsvp'};
+// Local and public forms use the same email relay. The recipient activates it once.
+export default {rsvpEnabled:true, rsvpMode:'email', rsvpEndpoint:'https://formsubmit.co/ajax/rahulpareek3366%40gmail.com'};

@@ -11,7 +11,7 @@ Copy this list and fill in whatever you have. Unknown details can wait.
 3. **Travel and hospitality** — Hotel/stay arrangements, check-in dates, station/airport guidance, pickup plans and local family contacts.
 4. **Venue extras** — A verified venue pin, venue photograph, parking and accessibility information. Directions currently open a Maps search for the printed address.
 5. **Optional programme refinements** — Event end times, family-specific customs, performance details, compulsory dress codes or any restricted invitations. All printed start times are already included.
-6. **Family contact and wishes** — The Wishes form collects a name, contact and message, then opens a WhatsApp draft to Rahul on the public site. Guests tap Send themselves. RSVPs and travel enquiries go to Rahul directly by WhatsApp, phone or email.
+6. **Family contact and wishes** — The Wishes form emails the sender’s name, contact and message to Rahul through FormSubmit after his one-time activation. WhatsApp and email-app backups are available. RSVPs and travel enquiries go to Rahul directly by WhatsApp, phone or email.
 7. **Language and personal touches** — A preferred hashtag, monogram, music you have permission to use, favourite quotes or Marwari phrases. English and Hindi are already used throughout the invitation and programme.
 
 Real stories and photographs will make the biggest difference to how personal the website feels.

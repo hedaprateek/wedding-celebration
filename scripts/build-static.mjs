@@ -16,18 +16,18 @@ export async function buildStatic(){
   }
   await mkdir(output,{recursive:true});
   // Only public invitation files belong in the Pages artifact. Guest data and host pages stay out.
-  for(const name of ['app.js','experience.js','navigation.js','invitation-utils.js','site.config.js','styles.css','experience.css','refinements.css','assets'])await cp(join(root,name),join(output,name),{recursive:true,dereference:false});
+  for(const name of ['app.js','experience.js','navigation.js','invitation-utils.js','wish-email.js','site.config.js','styles.css','experience.css','refinements.css','assets'])await cp(join(root,name),join(output,name),{recursive:true,dereference:false});
   await writeFile(join(output,'wedding-itinerary.pdf'),createItinerary(config));
   let html=await readFile(join(root,'index.html'),'utf8');
   html=html.replace('</head>','  <meta name="robots" content="noindex, nofollow">\n</head>');
-  html=html.replace('<form class="rsvp-form" id="rsvp-form"','<form hidden class="rsvp-form" id="rsvp-form"');
-  const whatsappEnabled=/^[1-9]\d{7,14}$/.test(config.contact.phone.replace(/\D/g,''));
-  if(!whatsappEnabled){
+  const emailEnabled=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(config.contact.email);
+  if(!emailEnabled){
+    html=html.replace('<form class="rsvp-form" id="rsvp-form"','<form hidden class="rsvp-form" id="rsvp-form"');
     html=html.replace('id="rsvp-unavailable" tabindex="-1" hidden','id="rsvp-unavailable" tabindex="-1"');
     html=html.replace('class="guest-participation reveal"','class="guest-participation reveal" hidden');
   }
   await writeFile(join(output,'index.html'),html);
-  await writeFile(join(output,'runtime.js'),`// Public RSVP opens a WhatsApp draft; guests must tap Send themselves.\nexport default ${JSON.stringify({rsvpEnabled:whatsappEnabled,rsvpMode:whatsappEnabled?'whatsapp':'unavailable',rsvpEndpoint:null})};\n`);
+  await writeFile(join(output,'runtime.js'),`// Wishes are submitted to the email relay; the recipient activates it once.\nexport default ${JSON.stringify({rsvpEnabled:emailEnabled,rsvpMode:emailEnabled?'email':'unavailable',rsvpEndpoint:emailEnabled?'https://formsubmit.co/ajax/'+encodeURIComponent(config.contact.email):null})};\n`);
   await writeFile(join(output,'.nojekyll'),'');
   // Keep search engines from indexing draft wedding information.
   await writeFile(join(output,'robots.txt'),'User-agent: *\nDisallow: /\n');

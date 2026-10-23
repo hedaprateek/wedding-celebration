@@ -3,6 +3,7 @@ import runtime from './runtime.js';
 import {enhanceInvitation} from './experience.js';
 import {setupNavigation} from './navigation.js';
 import {fullNames, hasDate, eventDay, eventWhen, whatsappWish} from './invitation-utils.js';
+import {createWishEmail,sendWishEmail,wishEmailFallback} from './wish-email.js';
 
 const $ = selector => document.querySelector(selector);
 const svg = name => { const el = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); el.setAttribute('aria-hidden', 'true'); const use = document.createElementNS(el.namespaceURI, 'use'); use.setAttribute('href', `#${name}`); el.append(use); return el; };
@@ -28,18 +29,18 @@ $('#family-father').textContent = config.family.father;
 $('#family-mother').textContent = config.family.mother;
 $('#family-brother').textContent = config.family.brother;
 renderPrintedInvitation();
-const whatsappMode = runtime.rsvpMode === 'whatsapp';
+const emailMode = runtime.rsvpMode === 'email';
 const rsvpEnabled = runtime.rsvpEnabled !== false;
 $('#rsvp-form').hidden = !rsvpEnabled;
 $('#rsvp-unavailable').hidden = rsvpEnabled;
 $('.guest-participation').hidden = !rsvpEnabled;
-$('#rsvp-preview-note').hidden = !whatsappMode && !config.preview;
-$('#rsvp-preview-note').textContent = whatsappMode ? 'Your wishes open as a WhatsApp draft to Rahul. Review your message and tap Send in WhatsApp.' : 'Local preview: your wishes are saved on this computer; the family is not notified.';
+$('#rsvp-preview-note').hidden = false;
+$('#rsvp-preview-note').textContent = 'Your wishes will be submitted by email to Rahul at '+config.contact.email+'.';
 document.querySelectorAll('[data-rsvp-name]').forEach(el => el.textContent = config.contact.name);
 document.querySelectorAll('[data-rsvp-phone]').forEach(el => { el.textContent = config.contact.displayPhone; el.href = 'tel:' + config.contact.phone; });
 document.querySelectorAll('[data-rsvp-email]').forEach(el => { el.textContent = config.contact.email; el.href = 'mailto:' + config.contact.email; el.hidden = !config.contact.email; });
 $('#direct-whatsapp').href = 'https://wa.me/' + config.contact.phone.replace(/\D/g,'') + '?text=' + encodeURIComponent('Hello Rahul, I would like to send my wishes for Prerna and Shubham’s wedding.');
-$('#whatsapp-help').hidden = !whatsappMode;
+$('#whatsapp-help').hidden = !emailMode;
 const titleWords = config.story.title.split('. ');
 $('#story-title').replaceChildren(document.createTextNode(titleWords[0] + (titleWords.length > 1 ? '.' : '')));
 if (titleWords.length > 1) $('#story-title').append(make('em', '', titleWords.slice(1).join('. ')));
@@ -140,18 +141,31 @@ function celebrate() {
 }
 $('#confetti-button').addEventListener('click',celebrate);
 
-$('#submit-rsvp').firstChild.textContent=whatsappMode?'Review wishes in WhatsApp ':'Save my wishes ';
+$('#submit-rsvp').firstChild.textContent='Send wishes by email ';
+let emailSending=false,lastEmailSignature;
 let lastAttempt;
 $('#rsvp-form').addEventListener('submit',async event=>{
   event.preventDefault();
   if(!rsvpEnabled){toast('Please contact Rahul directly to share your wishes.');return;}
   const form=event.currentTarget;if(!form.reportValidity())return;const fields=new FormData(form);
-  const payload={kind:'wish',name:String(fields.get('name')||'').trim(),contact:String(fields.get('contact')||'').trim(),note:String(fields.get('note')||'').trim(),consent:fields.get('consent')==='yes',website:String(fields.get('website')||'')};
+  const payload={kind:'wish',name:String(fields.get('name')||'').trim(),contact:String(fields.get('contact')||'').trim(),note:String(fields.get('message')||'').trim(),consent:fields.get('consent')==='yes',website:String(fields.get('_honey')||'')};
   for(const [id,value,message] of [['guest-name',payload.name,'Please enter your name.'],['guest-note',payload.note,'Please write a message for the couple.']])if(!value){$('#'+id).setCustomValidity(message);$('#'+id).reportValidity();return;}
-  if(whatsappMode){
-    const draft=whatsappWish(config,payload);const link=$('#whatsapp-draft');link.href=draft.url;link.hidden=false;
-    const status=$('#form-status');status.hidden=false;status.classList.remove('error');status.textContent='Your wishes are ready in WhatsApp. Tap Send there to deliver your message to Rahul for the couple. Nothing has been sent automatically.';
-    window.open(draft.url,'_blank','noopener,noreferrer');status.focus({preventScroll:true});return;
+  if(emailMode){
+    if(emailSending)return;
+    const status=$('#form-status');status.hidden=false;status.classList.remove('error');
+    let request;try{request=createWishEmail(config,payload);}catch(error){status.classList.add('error');status.textContent=error.message;status.focus({preventScroll:true});return;}
+    const signature=JSON.stringify(payload);
+    if(lastEmailSignature===signature){status.textContent='These wishes have already been submitted. Edit your message if you want to send an update.';status.focus({preventScroll:true});return;}
+    const backup=$('#whatsapp-draft'),mail=$('#email-fallback');backup.href=whatsappWish(config,payload).url;mail.href=wishEmailFallback(config,payload);backup.hidden=true;mail.hidden=true;
+    emailSending=true;$('#submit-rsvp').disabled=true;$('#submit-rsvp').firstChild.textContent='Sending your wishes… ';status.textContent='Submitting your wishes for Rahul by email…';
+    try{
+      request.endpoint=runtime.rsvpEndpoint;
+      const result=await sendWishEmail(request);
+      if(result.state==='activation-needed'){status.textContent='The family’s email connection needs activation. Your message is still here. Please use WhatsApp or your email app below for now.';backup.hidden=false;mail.hidden=false;}
+      else{lastEmailSignature=signature;status.textContent='Your wishes have been submitted for Rahul by email. Thank you for your blessings!';celebrate();}
+    }catch{status.classList.add('error');status.textContent='Email submission was not confirmed. Your message is still here. You can send it through WhatsApp or your email app below.';backup.hidden=false;mail.hidden=false;}
+    finally{emailSending=false;$('#submit-rsvp').disabled=false;$('#submit-rsvp').firstChild.textContent='Send wishes by email ';status.focus({preventScroll:true});}
+    return;
   }
   const signature=JSON.stringify(payload);if(!lastAttempt||lastAttempt.signature!==signature)lastAttempt={signature,id:crypto.randomUUID()};payload.requestId=lastAttempt.id;
   const status=$('#form-status');status.hidden=false;status.classList.remove('error');status.textContent='Saving your wishes…';$('#submit-rsvp').disabled=true;
